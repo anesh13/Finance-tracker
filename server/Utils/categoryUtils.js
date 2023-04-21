@@ -1,4 +1,4 @@
-import CategoryModel from '../models/CategoryModel';
+import CategoryModel from '../models/CategoryModel.js';
 
 const defaultCategories = [
 
@@ -22,6 +22,7 @@ const defaultCategories = [
 
 ];
 
+// add default categories when a user registers
 const createDefaultCategories = async (user) => {
   const categoryPromises = defaultCategories.map((category) => {
     const newCategory = new CategoryModel({
