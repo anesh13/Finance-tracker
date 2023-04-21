@@ -13,6 +13,6 @@ const goalSchema = new mongoose.Schema({
   timestamps: true,
 });
 
-const goalModel = mongoose.model('goal', goalSchema);
+const GoalModel = mongoose.model('goal', goalSchema);
 
-export default goalModel;
+export default GoalModel;

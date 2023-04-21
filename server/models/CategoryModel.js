@@ -15,6 +15,6 @@ const categorySchema = new mongoose.Schema(
   },
 );
 
-const categoryModel = mongoose.model('transaction', categorySchema);
+const CategoryModel = mongoose.model('categoryZ', categorySchema);
 
-export default categoryModel;
+export default CategoryModel;

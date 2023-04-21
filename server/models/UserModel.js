@@ -6,5 +6,5 @@ const userSchema = new mongoose.Schema({
 
 });
 
-const budgetModel = mongoose.model('user', userSchema);
-export default budgetModel;
+const BudgetModel = mongoose.model('user', userSchema);
+export default BudgetModel;
