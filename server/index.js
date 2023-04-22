@@ -4,6 +4,9 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 
 import userRoute from './routes/user.js';
+import accountRoute from './routes/account.js';
+import transactionRoute from './routes/transaction.js';
+import categoryRoute from './routes/category.js';
 
 const app = express(); // create an express app
 app.use(cors()); // todo configure allowed domain/origin later
@@ -33,6 +36,9 @@ mongoose.connect(process.env.MONGODB_URL, options)
   });
 
 app.use('/user', userRoute);
+app.use('/account', accountRoute);
+app.use('/transaction', transactionRoute);
+app.use('/category', categoryRoute);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
