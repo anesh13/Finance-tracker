@@ -56,7 +56,7 @@ const login = async (req, res) => {
 
     if (!user) {
       // not found
-      res.status(404).json({ message: 'Invalid Credentials. Wrong username or password' });
+      res.status(401).json({ message: 'Invalid Credentials. Wrong username or password' });
       console.log('wrong username');
       return;
     }
@@ -64,7 +64,8 @@ const login = async (req, res) => {
     const match = await bcrypt.compare(password, user.password);
 
     if (!match) {
-      res.status(400).json({ message: 'Invalid credentials' });
+      res.status(401).json({ message: 'Invalid credentials' });
+      console.log('wrong password');
       return;
     }
 
@@ -82,4 +83,27 @@ const login = async (req, res) => {
     res.status(500).json({ message: error });
   }
 };
-export { register, login };
+
+const getAllUsers = async (req, res) => {
+
+  // todo
+};
+
+const getUser = async (req, res) => {
+
+  // todo
+};
+
+const updateUser = async (req, res) => {
+
+  // todo
+};
+
+const deleteUser = async (req, res) => {
+
+  // todo
+};
+
+export {
+  register, login, getAllUsers, getUser, updateUser, deleteUser,
+};
