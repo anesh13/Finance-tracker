@@ -4,7 +4,7 @@ const defaultCategories = [
 
   // expense categories
   { name: 'Rent' },
-  { name: 'Utilities (Electricity, Water, Gas, Internet' },
+  { name: 'Utilities (Electricity, Water, Gas, Internet)' },
   { name: 'Groceries' },
   { name: 'Food & drinks' },
   { name: 'Shopping' },
@@ -24,10 +24,11 @@ const defaultCategories = [
 
 // add default categories when a user registers
 const createDefaultCategories = async (user) => {
+  console.log(user._id);
   const categoryPromises = defaultCategories.map((category) => {
     const newCategory = new CategoryModel({
       ...category,
-      user: user.userId,
+      userId: user._id,
     });
     return newCategory.save();
   });
