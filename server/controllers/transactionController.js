@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import TransactionModel from '../models/TransactionModel.js';
 import AccountModel from '../models/AccountModel.js';
 import BudgetModel from '../models/UserModel.js';
@@ -58,8 +59,43 @@ const getAllTransactions = async (req, res) => {
 };
 
 const getTransaction = async (req, res) => {
+  const transactionType = req.query.type; // expense or income
 
-  // todo
+  const id = new mongoose.Types.ObjectId(req.query.userId);
+  try {
+    console.log(transactionType);
+    console.log(id);
+
+    const transactionsByCategory = await TransactionModel.aggregate([
+      {
+        // filter user transactions by type
+        // $match: { userId: req.user._id, type: transactionType }, //todo change later to use jwt tokent to get userId
+        $match: { userId: id, type: transactionType }, // for postman testing
+      },
+      {
+        // join transaction collection with category collection
+        $lookup: {
+          from: 'categories',
+          localField: 'category', // category id
+          foreignField: '_id',
+          as: 'categoryData',
+        },
+      },
+      { // group by category name with their total amount
+        $group: {
+          _id: '$categoryData.name',
+          totalAmount: { $sum: '$amount' },
+        },
+      },
+      // sort by each category total amount in descending order
+      { $sort: { totalAmount: -1 } },
+    ]);
+
+    console.log(transactionsByCategory);
+    res.status(200).json(transactionsByCategory);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 // const updateTransaction = async (req, res) => {
