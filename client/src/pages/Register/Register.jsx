@@ -1,25 +1,26 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import axios from 'axios';
 import {backendUrl} from "../../config";
 
 import {useNavigate} from 'react-router-dom';
 
-const Login = () => {
+const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
+    const handleSignUp = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${backendUrl}/user/login`, {
+            const response = await axios.post(`${backendUrl}/user/register`, {
                 username,
                 password
             });
-            // console.log(response.data);
+            console.log(response.data.message);
 
-            // Navigate to home page
+
+            // Navigate to login page after registration
             navigate('/login');
         } catch (error) {
             console.error(error);
@@ -30,23 +31,19 @@ const Login = () => {
 
     return (
         <div>
-            <h2>Login</h2>
-            <form onSubmit={handleLogin}>
+            <h2>Signup</h2>
+            <form onSubmit={handleSignUp}>
                 <input placeholder="username" type='text' required onChange={(e) => {
                     setUsername(e.target.value);
                 }}/>
                 <input placeholder="password" type='password' required onChange={(e) => {
                     setPassword(e.target.value);
                 }}/>
-
-                <button type="submit">
-
-                    Login
-                </button>
+                <button type="submit">Sign up</button>
+                {errorMessage && <p>{errorMessage}</p>}
             </form>
-            {errorMessage && <p>{errorMessage}</p>}
         </div>
     );
 };
 
-export default Login;
+export default Register;
