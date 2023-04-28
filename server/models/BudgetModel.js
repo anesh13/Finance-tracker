@@ -9,7 +9,7 @@ const budgetSchema = new mongoose.Schema({
   endDate: { type: Date, required: true },
 
   // todo limit spending by category
-  // category: { type: mongoose.Schema.Types.ObjectId, ref: 'category' },
+  category: { type: mongoose.Schema.Types.ObjectId, ref: 'category' }, // optional
 
 }, {
   timestamp: true,

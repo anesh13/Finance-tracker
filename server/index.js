@@ -7,6 +7,7 @@ import userRoute from './routes/user.js';
 import accountRoute from './routes/account.js';
 import transactionRoute from './routes/transaction.js';
 import categoryRoute from './routes/category.js';
+import budgetRoute from './routes/budget.js';
 
 const app = express(); // create an express app
 app.use(cors()); // todo configure allowed domain/origin later
@@ -39,6 +40,7 @@ app.use('/user', userRoute);
 app.use('/account', accountRoute);
 app.use('/transaction', transactionRoute);
 app.use('/category', categoryRoute);
+app.use('/budget', budgetRoute);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

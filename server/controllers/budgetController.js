@@ -1,13 +1,41 @@
 import BudgetModel from '../models/BudgetModel.js';
 
+// add a budget to track spending
 const createBudget = async (req, res) => {
+  const {
+    userId, amount, period, startDate, endDate, category,
+  } = req.body;
 
-  // todo
+  try {
+    const newBudget = new BudgetModel({
+      userId,
+      amount,
+      period,
+      startDate,
+      endDate,
+      category,
+    });
+
+    // store new budget to db
+    await newBudget.save();
+
+    // return budget to client
+    res.status(201).json(newBudget);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-const getAllBudget = async (req, res) => {
+const getAllBudgets = async (req, res) => {
+  const { userId } = req.user._id;
 
-  // todo
+  try {
+    // retrieve all the budgets using userId
+    const budgets = await BudgetModel.find({ userId });
+    res.status(200).json(budgets);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 const getBudget = async (req, res) => {
 
@@ -15,8 +43,26 @@ const getBudget = async (req, res) => {
 };
 
 const updateBudget = async (req, res) => {
+  const { id } = req.params;
+  const {
+    amount, period, startDate, endDate,
+  } = req.body;
 
-  // todo
+  try {
+    // Update the budget in the database
+    const updatedBudget = await BudgetModel.findByIdAndUpdate(
+      id,
+      {
+        amount, period, startDate, endDate,
+      },
+      { new: true },
+    );
+
+    // Return the updated budge
+    res.status(200).json(updatedBudget);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 const removeBudget = async (req, res) => {
@@ -25,5 +71,5 @@ const removeBudget = async (req, res) => {
 };
 
 export {
-  createBudget, getBudget, updateBudget, removeBudget,
+  createBudget, getAllBudgets, getBudget, updateBudget, removeBudget,
 };
