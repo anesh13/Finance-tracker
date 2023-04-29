@@ -7,10 +7,11 @@ const Home = () => {
 
     return (
         <div>
-            <Navbar/>
+            {/* <Navbar/>
             <LeftBar/>
             hello
-            <Footer/>
+            <Footer/> */}
+            Home
         </div>
     )
 }
