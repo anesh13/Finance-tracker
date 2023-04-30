@@ -60,17 +60,20 @@ const getAllTransactions = async (req, res) => {
 
 const getTransaction = async (req, res) => {
   const transactionType = req.query.type; // expense or income
+  // console.log(req.headers);
 
-  const id = new mongoose.Types.ObjectId(req.query.userId);
+  console.log(req.user._id);
+  console.log(transactionType);
   try {
-    console.log(transactionType);
-    console.log(id);
+    // for testing without using jwt token user id
+    // const id = new mongoose.Types.ObjectId(req.query.userId);
+    // console.log(id);
 
     const transactionsByCategory = await TransactionModel.aggregate([
       {
         // filter user transactions by type
-        // $match: { userId: req.user._id, type: transactionType }, //todo change later to use jwt tokent to get userId
-        $match: { userId: id, type: transactionType }, // for postman testing
+        $match: { userId: req.user._id, type: transactionType },
+        // $match: { userId: id, type: transactionType }, // for postman testing
       },
       {
         // join transaction collection with category collection

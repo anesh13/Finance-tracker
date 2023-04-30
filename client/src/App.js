@@ -2,7 +2,10 @@ import {
     createBrowserRouter,
     RouterProvider,
     Outlet,
+    Navigate
 } from "react-router-dom";
+
+import { useContext } from "react";
 
 
 import Register from "./pages/Register/Register";
@@ -12,12 +15,20 @@ import Navbar from "./components/navbar/Navbar";
 import LeftBar from "./components/leftBar/LeftBar";
 import Footer from "./components/footer/Footer";
 import Goal from "./components/goal/Goal";
-import Transaction from "./components/transaction/Transaction";
+import Transaction from "./components/transaction/Transaction1";
 import Budget from "./components/budget/Budget";
+import { AuthContext } from "./contextApi/AuthContext";
+
 const App = () => {
     // const currentUser = localStorage.getItem('username');
 
+    const { currentUser } = useContext(AuthContext) //access the shared state
+    // console.log("first load " + loading);
+    console.log("Current user:", currentUser);
 
+    // if (loading) {
+    //     return <div>Loading...</div>; // Display a loading indicator while waiting
+    // }
     const Layout = () => {
         return (
 
@@ -39,9 +50,18 @@ const App = () => {
     };
 
     const ProtectedRoute = ({ children }) => {
-        // if (!currentUser) {
-        //   return <Navigate to="/login" />;
+        // if (loading) {
+        //     return <div>Loading...</div>; // Display a loading indicator while waiting
         // }
+        // console.log('loading :' + loading)
+
+
+        console.log('AUTH: ' + currentUser);
+        // console.log(currentUser);
+        if (!currentUser) {
+            console.log('Not CURRENT USER: ' + currentUser);
+            return <Navigate to="/login" />;
+        }
 
         return children;
     }

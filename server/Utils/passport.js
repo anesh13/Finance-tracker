@@ -1,6 +1,9 @@
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import passport from 'passport';
+import dotenv from 'dotenv';
 import UserModel from '../models/UserModel.js';
+
+dotenv.config(); // load env file
 
 // Setup work and export for the JWT passport strategy
 const jwtOptions = {
@@ -9,17 +12,17 @@ const jwtOptions = {
 };
 
 export function auth() {
-  passport.use(new JwtStrategy(jwtOptions, (jwtPayload, done) => {
-    const userId = jwtPayload._id;
-    UserModel.findById(userId, (err, user) => {
-      if (err) {
-        return done(err);
-      }
+  passport.use(new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
+    try {
+      const userId = jwtPayload._id;
+      const user = await UserModel.findById(userId);
       if (user) {
         return done(null, user);
       }
       return done(null, false);
-    });
+    } catch (err) {
+      return done(err);
+    }
   }));
 }
 
