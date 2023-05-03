@@ -38,7 +38,7 @@ const App = () => {
                     <LeftBar />
 
                     {/* 1/3 space for leftbar and 2/3 space for outlet */}
-                    <div style={{ flex: 3 }}>
+                    <div style={{ flex: 6 }}>
                         {/* nested routes inside root route */}
                         <Outlet />
                     </div>
