@@ -15,7 +15,7 @@ import Navbar from "./components/navbar/Navbar";
 import LeftBar from "./components/leftBar/LeftBar";
 import Footer from "./components/footer/Footer";
 import Goal from "./components/goal/Goal";
-import Transaction from "./components/transaction/Transaction1";
+import Transaction from "./components/transaction/Transaction";
 import Budget from "./components/budget/Budget";
 import { AuthContext } from "./contextApi/AuthContext";
 
