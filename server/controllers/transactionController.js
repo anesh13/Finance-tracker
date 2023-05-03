@@ -7,11 +7,12 @@ import GoalModel from '../models/GoalModel.js';
 const addTransaction = async (req, res) => {
   const {
     // required in transactions
-    userId, account, category, type, amount,
+    account, category, type, amount,
     // optional
     budget, goal, description,
   } = req.body;
 
+  const userId = req.user._id;
   try {
     const newTransaction = new TransactionModel({
       userId, account, category, type, amount, budget, goal, description,

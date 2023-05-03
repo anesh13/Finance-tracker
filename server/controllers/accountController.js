@@ -22,9 +22,26 @@ const createAccount = async (req, res) => {
   }
 };
 
+// retrieve user accounts
 const getAllAccounts = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const accounts = await AccountModel.find({ userId });
 
-  // todo
+    // no accounts found
+    if (!accounts) {
+      // not found
+      res.status(4004).json({ message: 'no accounts found' });
+      console.log('no accounts found');
+      return;
+    }
+    console.log(accounts);
+
+    res.status(200).json(accounts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
 };
 
 const getAccount = async (req, res) => {

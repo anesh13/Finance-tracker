@@ -1,12 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { GoogleCharts } from 'google-charts';
 import { backendUrl } from '../../config';
+import './transaction.scss'
+
+
+import AddTransactionModal from './AddTransactionModal';
+import { Button } from '@mui/material';
 
 const Transaction = () => {
     const [transactions, setTransactions] = useState([]);
     const [type, setType] = useState('expense'); //expense default
 
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const handleOpenModal = () => {
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    };
     useEffect(() => {
         const getTransactions = async () => {
             try {
@@ -47,13 +61,36 @@ const Transaction = () => {
         chart.draw(data, options);
     };
 
+
+
     return (
-        <div>
-            <select value={type} onChange={(e) => setType(e.target.value)}>
-                <option value="expense">Expenses</option>
-                <option value="income">Income</option>
-            </select>
-            <div id="piechart" style={{ width: '100%', height: '500px' }}></div>
+        <div className='transaction'>
+            <div className='top'>
+                <h2> Transactions</h2>
+                <div>
+                    <Button variant="contained" color="primary" onClick={handleOpenModal} style={{ margin: '20px 0' }}>
+                        Add Transaction
+                    </Button>
+                    <AddTransactionModal open={modalOpen} handleClose={handleCloseModal} />
+                </div>
+            </div>
+
+            <div className='bottom'>
+
+                <div id="piechart" style={{ width: '100%', height: '500px' }}></div>
+
+                {/* <select className='select' value={type} onChange={(e) => setType(e.target.value)}>
+                    <option value="expense">Expenses</option>
+                    <option value="income">Income</option>
+                </select> */}
+            </div>
+
+            <div className='bottom'>
+
+                <div>hello</div>
+                <div id="piechart" style={{ width: '100%', height: '500px' }}></div>
+            </div>
+
         </div>
     );
 };

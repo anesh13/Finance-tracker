@@ -27,8 +27,26 @@ const createCategory = async (req, res) => {
 };
 
 const getAllCategories = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    console.log(userId);
 
-  // todo
+    const categories = await CategoryModel.find({ userId });
+
+    // no categories
+    if (!categories) {
+      // not found
+      res.status(4004).json({ message: 'no categories' });
+      console.log('no categories');
+      return;
+    }
+    console.log(categories);
+    // return categories
+    res.status(200).json(categories);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
 };
 
 const getCategory = async (req, res) => {
