@@ -21,6 +21,8 @@ const Transaction = () => {
     const handleCloseModal = () => {
         setModalOpen(false);
     };
+
+
     useEffect(() => {
         const getTransactions = async () => {
             try {
@@ -47,14 +49,16 @@ const Transaction = () => {
         data.addColumn('string', 'Category');
         data.addColumn('number', 'Amount');
 
+
         // const formattedData = transactions.map((transaction) => [transaction._id, transaction.totalAmount]);
         const formattedData = transactions.map((transaction) => [String(transaction._id), transaction.totalAmount]);
-
+        // console.log(formattedData);
         data.addRows(formattedData);
 
         const options = {
             title: type === 'expense' ? 'Expenses by Category' : 'Income by Category',
             is3D: true,
+
         };
 
         const chart = new GoogleCharts.api.visualization.PieChart(document.getElementById('piechart'));
@@ -77,7 +81,7 @@ const Transaction = () => {
 
             <div className='bottom'>
 
-                <div id="piechart" style={{ width: '100%', height: '500px' }}></div>
+                <div id="piechart" style={{ width: '90%', height: '500px' }}></div>
 
                 {/* <select className='select' value={type} onChange={(e) => setType(e.target.value)}>
                     <option value="expense">Expenses</option>
@@ -88,7 +92,7 @@ const Transaction = () => {
             <div className='bottom'>
 
                 <div>hello</div>
-                <div id="piechart" style={{ width: '100%', height: '500px' }}></div>
+                <div id="piechart2" style={{ width: '90%', height: '500px' }}></div>
             </div>
 
         </div>

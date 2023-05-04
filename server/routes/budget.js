@@ -6,7 +6,7 @@ import {
   //   getBudget,
   updateBudget,
   //   removeBudget,
-} from '../controllers/budgetController';
+} from '../controllers/budgetController.js';
 
 const router = express.Router();
 router.post('/create', createBudget);

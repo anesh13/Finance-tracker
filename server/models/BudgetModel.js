@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 // budget model to track spending limits
 const budgetSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true },
+  name: { type: String, required: true },
   amount: { type: Number, required: true },
   period: { type: String, enum: ['weekly', 'monthly', 'yearly'], required: true },
   startDate: { type: Date, required: true },
