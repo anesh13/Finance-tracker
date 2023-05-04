@@ -23,20 +23,22 @@ const Transaction = () => {
     };
 
 
-    useEffect(() => {
-        const getTransactions = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const headers = {
-                    Authorization: `Bearer ${token}`
-                };
 
-                const response = await axios.get(`${backendUrl}/transaction/byCategory?type=${type}`, { headers });
-                setTransactions(response.data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
+    const getTransactions = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const headers = {
+                Authorization: `Bearer ${token}`
+            };
+
+            const response = await axios.get(`${backendUrl}/transaction/byCategory?type=${type}`, { headers });
+            setTransactions(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
         getTransactions();
     }, [type]);
 
@@ -57,7 +59,12 @@ const Transaction = () => {
 
         const options = {
             title: type === 'expense' ? 'Expenses by Category' : 'Income by Category',
-            is3D: true,
+            // is3D: true,
+            pieHole: 0.5,
+            pieSliceTextStyle: {
+                color: 'black',
+            },
+            // legend: 'none'
 
         };
 
@@ -75,7 +82,7 @@ const Transaction = () => {
                     <Button variant="contained" color="primary" onClick={handleOpenModal} style={{ margin: '20px 0' }}>
                         Add Transaction
                     </Button>
-                    <AddTransactionModal open={modalOpen} handleClose={handleCloseModal} />
+                    <AddTransactionModal open={modalOpen} handleClose={handleCloseModal} handleAddedTransaction={getTransactions} />
                 </div>
             </div>
 

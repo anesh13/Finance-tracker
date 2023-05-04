@@ -14,7 +14,7 @@ import {
 import axios from 'axios';
 import { backendUrl } from '../../config';
 
-const AddTransactionModal = ({ open, handleClose }) => {
+const AddTransactionModal = ({ open, handleClose, handleAddedTransaction }) => {
     const [transaction, setTransaction] = useState({});
     const [accounts, setAccounts] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -36,6 +36,8 @@ const AddTransactionModal = ({ open, handleClose }) => {
             await axios.post(`${backendUrl}/transaction/create`, transaction, { headers });
 
             console.log('Transaction data:', transaction);
+            //update new transactions
+            handleAddedTransaction();
             handleClose();
         } catch (error) {
             console.error(error);
