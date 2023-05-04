@@ -4,9 +4,10 @@ import mongoose from 'mongoose';
 const accountSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true },
-    type: { type: String, enum: ['checking', 'savings'], required: true }, // to do 'creditCard', 'investment'
-    name: { type: String },
+    type: { type: String, enum: ['Checking', 'Savings', 'Credit Card', 'Loan'], required: true }, // to do 'creditCard', 'investment'
+    name: { type: String, required: true },
     balance: { type: Number, required: true },
+    creditLimit: { type: Number },
 
   },
   {

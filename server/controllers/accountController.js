@@ -3,13 +3,13 @@ import AccountModel from '../models/AccountModel.js';
 // create a checking or savings account
 const createAccount = async (req, res) => {
   const {
-    userId, type, name, balance,
+    type, name, balance, creditLimit,
   } = req.body;
-
+  const userId = req.user._id;
   try {
     // create new account
     const newAccount = new AccountModel({
-      userId, type, name, balance,
+      userId, type, name, balance, creditLimit,
     });
     // store account in db
     await newAccount.save();

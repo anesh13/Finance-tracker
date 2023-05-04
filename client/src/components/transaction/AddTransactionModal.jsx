@@ -99,8 +99,9 @@ const AddTransactionModal = ({ open, handleClose, handleAddedTransaction }) => {
                         onChange={handleChange}
                         label="Type"
                     >
-                        <MenuItem value="income">Income</MenuItem>
                         <MenuItem value="expense">Expense</MenuItem>
+                        <MenuItem value="income">Income</MenuItem>
+
                     </Select>
                 </FormControl>
 
@@ -115,8 +116,13 @@ const AddTransactionModal = ({ open, handleClose, handleAddedTransaction }) => {
                         label="Account"
                     >
                         {accounts.map((account) => (
-                            <MenuItem key={account._id} value={account._id}>
-                                {account.type}
+                            <MenuItem key={account._id} value={account._id}
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between'
+                                }} >
+                                {account.name}
+                                {/* <span className="balance">{account.balance < 0 ? `-$${Math.abs(account.balance)}` : `$${account.balance}`}</span> */}
                             </MenuItem>
                         ))}
                     </Select>
