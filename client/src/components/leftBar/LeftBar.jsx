@@ -1,6 +1,12 @@
 import "./leftBar.scss";
 import { Link } from 'react-router-dom';
+
 import SettingsIcon from '@mui/icons-material/Settings';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import SportsScoreTwoToneIcon from '@mui/icons-material/SportsScoreTwoTone';
+
+import SavingsOutlinedIcon from '@mui/icons-material/SavingsOutlined';
+import AttachMoneySharpIcon from '@mui/icons-material/AttachMoneySharp';
 const LeftBar = () => {
 
 
@@ -10,34 +16,40 @@ const LeftBar = () => {
 
                 <div className="menu">
 
-                    <div className="item">
-                        <Link to="/" style={{ textDecoration: "none" }}>
-                            <h3>Dashboard</h3>  </Link>
-                    </div>
+                    <Link to="/" style={{ textDecoration: "none" }}>
+                        <div className="item">
+                            <HomeOutlinedIcon />
+                            <span>Dashboard</span>
 
-                    <div className="item">
-                        <Link to="/transaction" style={{ textDecoration: "none" }}>
-                            <h3>Transaction</h3>  </Link>
-                    </div>
+                        </div>
+                    </Link>
+                    <Link to="/transaction" style={{ textDecoration: "none" }}>
+                        <div className="item">
+                            <AttachMoneySharpIcon />
+                            <span>Transaction</span>
+                        </div>
+                    </Link>
 
-                    <div className="item">
-                        <Link to="/budget" style={{ textDecoration: "none" }}>
-                            <h3>Budget</h3>
-                        </Link>
-                    </div>
+                    <Link to="/budget" style={{ textDecoration: "none" }}>
+                        <div className="item">
+                            <SavingsOutlinedIcon />
+                            <span>Budget</span>
+                        </div>
+                    </Link>
 
-                    <div className="item">
-                        <Link to="/goal" style={{ textDecoration: "none" }}>
-                            <h3>Goal</h3>  </Link>
-                    </div>
+                    <Link to="/goal" style={{ textDecoration: "none" }}>
+                        <div className="item">
+                            <SportsScoreTwoToneIcon />
+                            <span>Goal</span>
+                        </div>
+                    </Link>
+                    <Link to="/settings" style={{ textDecoration: "none" }}>
+                        <div className="item">
 
-                    <div className="item">
-                        <Link to="/settings" style={{ textDecoration: "none" }}>
-                            <h3>Settings </h3>
                             < SettingsIcon />
-                        </Link>
-                    </div>
-
+                            <span>Settings </span>
+                        </div>
+                    </Link>
                 </div>
 
             </div>
