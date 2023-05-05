@@ -49,7 +49,7 @@ const Settings = () => {
                     <Button variant="contained" color="primary" onClick={handleOpenModal} style={{ margin: '20px 0' }}>
                         Add Account
                     </Button>
-                    <AccountModal open={modalOpen} handleClose={handleCloseModal} handleAddedTransaction={getAccounts} />
+                    <AccountModal open={modalOpen} handleClose={handleCloseModal} handleAddedAccount={getAccounts} />
                 </div>
             </div>
 
@@ -60,7 +60,7 @@ const Settings = () => {
 
             <div className="accounts">
                 {accounts.map(accs => (
-                    <Account account={accs} key={accs.id} />
+                    <Account account={accs} key={accs._id} />
                 ))}
             </div>
 

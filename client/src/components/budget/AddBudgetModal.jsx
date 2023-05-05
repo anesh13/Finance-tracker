@@ -14,7 +14,7 @@ import axios from "axios";
 import { backendUrl } from "../../config";
 import { useState } from 'react';
 
-const AddBudgetModal = ({ open, handleClose }) => {
+const AddBudgetModal = ({ open, handleClose, handleAddedBudget }) => {
     const [budget, setBudget] = useState({});
 
     const handleChange = (e) => {
@@ -30,6 +30,8 @@ const AddBudgetModal = ({ open, handleClose }) => {
 
             await axios.post(`${backendUrl}/budget/create`, budget, { headers });
 
+            //update new transactions
+            handleAddedBudget();
             // Close the modal
             handleClose();
         } catch (error) {
@@ -60,7 +62,7 @@ const AddBudgetModal = ({ open, handleClose }) => {
                     fullWidth
                     onChange={handleChange}
                 />
-                <FormControl fullWidth>
+                <FormControl fullWidth margin="dense">
                     <InputLabel>Period</InputLabel>
                     <Select
                         name="period"

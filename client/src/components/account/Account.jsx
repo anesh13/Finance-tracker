@@ -1,4 +1,5 @@
-import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
+// import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
+import EditIcon from '@mui/icons-material/Edit';
 import './account.scss';
 
 const Account = ({ account }) => {
@@ -11,7 +12,7 @@ const Account = ({ account }) => {
                 <div className='top'>
                     {/* <h2>Account</h2> */}
                     {account.name}
-                    <div className='button'> <SettingsTwoToneIcon /></div>
+                    <div className='button'> <EditIcon /></div>
 
                 </div>
 
