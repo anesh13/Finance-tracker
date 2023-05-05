@@ -24,8 +24,6 @@ const EditGoalModal = ({ open, handleClose, goal, updateGoal }) => {
             };
 
             await axios.put(`${backendUrl}/goal/update/${goal._id}`, editedGoal, { headers });
-
-            // Close the modal
             updateGoal();
             handleClose();
         } catch (error) {

@@ -44,7 +44,6 @@ const Goal = () => {
     };
 
     const getGoals = async () => {
-
         try {
             const token = localStorage.getItem("token");
             const headers = {
