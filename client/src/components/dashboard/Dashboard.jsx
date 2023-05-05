@@ -14,9 +14,9 @@ const Dashboard = () => {
         fetchAccounts();
         fetchTransactions();
 
-        //TODO
-        // getBudgets();
-        // getGoals();
+
+        getBudgets();
+        getGoals();
     }, []);
 
     const fetchAccounts = async () => {
@@ -60,13 +60,36 @@ const Dashboard = () => {
     };
 
     const getBudgets = async () => {
-        //TODO
-    };
+        try {
+            const token = localStorage.getItem("token");
+            const headers = {
+                Authorization: `Bearer ${token}`,
+            };
 
+            const response = await axios.get(`${backendUrl}/budget/all`, { headers });
+
+            setBudgets(response.data);
+            console.log(response.data);
+        } catch (error) {
+            console.error("Error fetching budgets:", error);
+        }
+    };
     const getGoals = async () => {
-        //TODO
-    };
 
+        try {
+            const token = localStorage.getItem("token");
+            const headers = {
+                Authorization: `Bearer ${token}`,
+            };
+
+            const response = await axios.get(`${backendUrl}/goal/all`, { headers });
+
+            setGoals(response.data);
+            console.log(response.data)
+        } catch (error) {
+            console.error('Error fetching goals:', error);
+        }
+    };
     return (
         <div className="dashboard">
             {/* <h2>Dashboard</h2> */}
@@ -114,12 +137,15 @@ const Dashboard = () => {
             <div className="budget">
                 {/* Display the budget overview with progress bars */}
                 <h3>Budget</h3>
-                {budgets.map((budget) => (
-                    <div key={budget._id} className="budget-item">
-                        <p>{budget.category}</p>
-                        <progress value={budget.spent} max={budget.limit}></progress>
-                    </div>
-                ))}
+                {budgets.map((budget) => {
+                    const spent = calculateSpentAmount(budget, transactions);
+                    return (
+                        <div key={budget._id} className="budget-item">
+                            <p>{budget.name}</p>
+                            <progress value={spent} max={budget.amount}></progress>
+                        </div>
+                    );
+                })}
             </div>
 
             <div className="goals">
@@ -154,4 +180,29 @@ const calculateTotalDebt = (accounts) => {
 
 const calculateNetWorth = (totalSavingsAndChecking, totalDebt) => {
     return totalSavingsAndChecking - totalDebt;
+};
+
+const calculateSpentAmount = (budget, transactions) => {
+    const currentDate = new Date();
+    const startDate = new Date(budget.startDate);
+    const endDate = new Date(budget.endDate);
+
+    // Check if the current date is within the budget period
+    if (currentDate >= startDate && currentDate <= endDate) {
+        // Calculate the spent amount for this budget
+        const spent = transactions.reduce((total, transaction) => {
+            const transactionDate = new Date(transaction.createdAt);
+            return (
+                transactionDate >= startDate &&
+                transactionDate <= endDate &&
+                // TODO: Add category condition to filter
+                total + transaction.amount
+            );
+        }, 0);
+
+        console.log(spent);
+        return spent;
+    }
+
+    return 0;
 };
