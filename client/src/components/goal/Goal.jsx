@@ -1,4 +1,5 @@
 import AddGoalModal from "./AddGoalModal";
+import EditGoalModal from "./EditGoalModal";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { backendUrl } from '../../config';
@@ -21,6 +22,8 @@ import { Box, Typography, LinearProgress } from '@mui/material';
 const Goal = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [goals, setGoals] = useState([]);
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [selectedGoal, setSelectedGoal] = useState(null);
 
     const handleOpenModal = () => {
         setModalOpen(true);
@@ -30,6 +33,15 @@ const Goal = () => {
         setModalOpen(false);
     };
 
+    const handleEditModalOpen = (goal) => {
+        setSelectedGoal(goal);
+        setEditModalOpen(true);
+    };
+
+    const handleEditModalClose = () => {
+        setEditModalOpen(false);
+        setSelectedGoal(null);
+    };
 
     const getGoals = async () => {
 
@@ -64,6 +76,12 @@ const Goal = () => {
                     Add Goal
                 </Button>
                 <AddGoalModal open={modalOpen} handleClose={handleCloseModal} updateGoal={getGoals} />
+                {/* <EditGoalModal
+                    open={editModalOpen}
+                    handleClose={handleEditModalClose}
+                    goal={selectedGoal}
+                    updateGoal={getGoals}
+                /> */}
             </div>
 
             <div className="bottom">
@@ -79,6 +97,7 @@ const Goal = () => {
                                 <TableCell>Target Amount</TableCell>
                                 <TableCell>Target Date</TableCell>
                                 <TableCell>Progress</TableCell>
+                                <TableCell></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -90,7 +109,7 @@ const Goal = () => {
                                     <TableCell>{goal.targetAmount}</TableCell>
                                     {/* <TableCell>{goal.targetDate}</TableCell> */}
                                     <TableCell>
-                                        {new Date(goal.targetDate).toLocaleDateString()}
+                                        {(goal.targetDate).slice(0,10)}
                                     </TableCell>
 
                                     <TableCell>
@@ -99,6 +118,22 @@ const Goal = () => {
                                             value={calculateGoalProgress(goal.currentAmount, goal.targetAmount)}
                                         />
                                     </TableCell>
+                                    <TableCell>
+                                            <Button variant="contained" color="primary" style={{ margin: "20px 0" }} onClick={() => handleEditModalOpen(goal)}>
+                                                Edit
+                                            </Button></TableCell>
+                                            {editModalOpen && <EditGoalModal
+                                                     open={editModalOpen}
+                                                     handleClose={handleEditModalClose}
+                                                     goal={selectedGoal}
+                                                     updateGoal={getGoals}
+                                                 />}
+                                                {/* <EditGoalModal
+                                                     open={editModalOpen}
+                                                     handleClose={handleEditModalClose}
+                                                     goal={selectedGoal}
+                                                     updateGoal={getGoals}
+                                                 /> */}
                                 </TableRow>
                             ))}
                         </TableBody>
