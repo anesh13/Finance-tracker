@@ -128,12 +128,6 @@ const Goal = () => {
                                                      goal={selectedGoal}
                                                      updateGoal={getGoals}
                                                  />}
-                                                {/* <EditGoalModal
-                                                     open={editModalOpen}
-                                                     handleClose={handleEditModalClose}
-                                                     goal={selectedGoal}
-                                                     updateGoal={getGoals}
-                                                 /> */}
                                 </TableRow>
                             ))}
                         </TableBody>

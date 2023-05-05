@@ -32,7 +32,6 @@ const EditGoalModal = ({ open, handleClose, goal, updateGoal }) => {
             console.error(error);
         }
     };
-    // console.log()
     return (
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Edit Goal</DialogTitle>
