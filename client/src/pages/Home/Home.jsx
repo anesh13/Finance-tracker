@@ -1,17 +1,14 @@
-import Footer from "../../components/footer/Footer";
-import LeftBar from "../../components/leftBar/LeftBar";
-import Navbar from "../../components/navbar/Navbar";
+import Dashboard from "../../components/dashboard/Dashboard";
 
 const Home = () => {
 
 
     return (
         <div>
-            {/* <Navbar/>
-            <LeftBar/>
-            hello
-            <Footer/> */}
             Home
+            <div>
+                <Dashboard />
+            </div>
         </div>
     )
 }

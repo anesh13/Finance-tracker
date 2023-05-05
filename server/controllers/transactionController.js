@@ -55,8 +55,24 @@ const addTransaction = async (req, res) => {
 };
 
 const getAllTransactions = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const transactions = await TransactionModel.find({ userId });
 
-  // todo
+    // no transactions found
+    if (!transactions) {
+      // not found
+      res.status(4004).json({ message: 'no transactions found' });
+      console.log('no transactions found');
+      return;
+    }
+    console.log(transactions);
+
+    res.status(200).json(transactions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
 };
 
 const getTransaction = async (req, res) => {
