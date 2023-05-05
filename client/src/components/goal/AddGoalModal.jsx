@@ -10,7 +10,7 @@ import axios from "axios";
 import { backendUrl } from "../../config";
 import { useState } from 'react';
 
-const AddGoalModal = ({ open, handleClose }) => {
+const AddGoalModal = ({ open, handleClose, updateGoal }) => {
     const [goal, setGoal] = useState({});
 
     const handleChange = (e) => {
@@ -24,10 +24,10 @@ const AddGoalModal = ({ open, handleClose }) => {
                 Authorization: `Bearer ${token}`,
             };
 
-            // TODO 
-            // await axios.post(`${backendUrl}/goal/create`, goal, { headers }); 
+            await axios.post(`${backendUrl}/goal/create`, goal, { headers });
 
             // Close the modal
+            updateGoal();
             handleClose();
         } catch (error) {
             console.error(error);
