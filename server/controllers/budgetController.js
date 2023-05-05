@@ -2,19 +2,24 @@ import BudgetModel from '../models/BudgetModel.js';
 
 // add a budget to track spending
 const createBudget = async (req, res) => {
-  const {
-    userId, amount, period, startDate, endDate, category,
-  } = req.body;
+  console.log('req.body:', req.body);
+  console.log('req.user:', req.user);
 
+  const {
+    name, amount, period, startDate, endDate, category,
+  } = req.body;
+  const userId = req.user._id;
   try {
     const newBudget = new BudgetModel({
       userId,
+      name,
       amount,
       period,
       startDate,
       endDate,
       category,
     });
+    console.log(newBudget);
 
     // store new budget to db
     await newBudget.save();
@@ -27,8 +32,7 @@ const createBudget = async (req, res) => {
 };
 
 const getAllBudgets = async (req, res) => {
-  const { userId } = req.user._id;
-
+  const userId = req.user._id;
   try {
     // retrieve all the budgets using userId
     const budgets = await BudgetModel.find({ userId });

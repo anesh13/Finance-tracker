@@ -3,7 +3,6 @@ import { Button } from '@mui/material';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { backendUrl } from "../../config";
-import Accounts from "../account/Accounts";
 import Account from "../account/Account";
 
 import './settings.scss'
