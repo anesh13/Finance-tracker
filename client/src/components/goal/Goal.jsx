@@ -39,6 +39,7 @@ const Goal = () => {
     };
 
     const handleEditModalClose = () => {
+        console.log("Closing modal");
         setEditModalOpen(false);
         setSelectedGoal(null);
     };
@@ -53,7 +54,7 @@ const Goal = () => {
             const response = await axios.get(`${backendUrl}/goal/all`, { headers });
 
             setGoals(response.data);
-            console.log(response.data)
+            // console.log(response.data)
         } catch (error) {
             console.error('Error fetching goals:', error);
         }
@@ -70,7 +71,6 @@ const Goal = () => {
         <div className="goal">
             <div className='top'>
                 <h2> Goals</h2>
-
                 <Button variant="contained" color="primary" onClick={handleOpenModal} style={{ margin: '20px 0' }}>
                     Add Goal
                 </Button>
@@ -78,7 +78,6 @@ const Goal = () => {
             </div>
 
             <div className="bottom">
-                <div>Goals</div>
                 {/* <div id="piechart" style={{ width: '90%', height: '500px' }}></div> */}
                 <TableContainer component={Paper}>
                     <Table>
@@ -102,7 +101,7 @@ const Goal = () => {
                                     <TableCell>{goal.targetAmount}</TableCell>
                                     {/* <TableCell>{goal.targetDate}</TableCell> */}
                                     <TableCell>
-                                        {(goal.targetDate).slice(0,10)}
+                                        {(goal.targetDate).slice(0, 10)}
                                     </TableCell>
 
                                     <TableCell>
@@ -112,17 +111,21 @@ const Goal = () => {
                                         />
                                     </TableCell>
                                     <TableCell>
-                                            <Button variant="contained" color="primary" style={{ margin: "20px 0" }} onClick={() => handleEditModalOpen(goal)}>
-                                                Edit
-                                            </Button></TableCell>
-                                            {editModalOpen && <EditGoalModal
-                                                     open={editModalOpen}
-                                                     handleClose={handleEditModalClose}
-                                                     goal={selectedGoal}
-                                                     updateGoal={getGoals}
-                                                 />}
+                                        <Button variant="contained" color="primary" style={{ margin: "20px 0" }} onClick={() => handleEditModalOpen(goal)}>
+                                            Edit
+                                        </Button>
+                                    </TableCell>
                                 </TableRow>
                             ))}
+
+
+                            {editModalOpen && (<EditGoalModal
+                                open={editModalOpen}
+                                handleClose={handleEditModalClose}
+                                goal={selectedGoal}
+                                updateGoal={getGoals}
+                            />)}
+
                         </TableBody>
                     </Table>
                 </TableContainer>

@@ -17,19 +17,26 @@ const EditGoalModal = ({ open, handleClose, goal, updateGoal }) => {
     };
 
     const handleSubmit = async () => {
+        console.log(goal._id);
         try {
             const token = localStorage.getItem("token");
             const headers = {
                 Authorization: `Bearer ${token}`,
             };
 
+            console.log(editedGoal);
             await axios.put(`${backendUrl}/goal/update/${goal._id}`, editedGoal, { headers });
-            updateGoal();
+            await updateGoal();
             handleClose();
         } catch (error) {
             console.error(error);
         }
     };
+
+    useEffect(() => {
+        setEditedGoal(goal);
+    }, [goal]);
+
     return (
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Edit Goal</DialogTitle>
@@ -78,12 +85,16 @@ const EditGoalModal = ({ open, handleClose, goal, updateGoal }) => {
                     label="Target Date"
                     type="date"
                     fullWidth
-                    value={(editedGoal.targetDate).slice(0,10)}
+                    value={(editedGoal.targetDate).slice(0, 10)}
                     onChange={handleChange}
                 />
             </DialogContent>
 
-            <DialogActions>
+            <DialogActions style={{
+                display: 'flex',
+                justifyContent: 'space-between'
+
+            }}>
                 <Button onClick={handleClose}>Cancel</Button>
                 <Button onClick={handleSubmit}>Save</Button>
             </DialogActions>
