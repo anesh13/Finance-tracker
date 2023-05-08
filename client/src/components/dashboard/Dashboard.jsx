@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import './dashboard.scss';
 import axios from 'axios';
 import { backendUrl } from '../../config';
-import { NextSeo } from "next-seo";
+//import { NextSeo } from "next-seo";
 
 const Dashboard = () => {
     const [accounts, setAccounts] = useState([]);
@@ -93,10 +93,10 @@ const Dashboard = () => {
     };
     return (
         <>
-        <NextSeo
+        {/* <NextSeo
         title="Finance Tracker"
         description="Track your personal finances with ease using our finance tracker app. Manage your budget, expenses, and income all in one place."
-      />
+      /> */}
         <div className="dashboard">
             {/* <h2>Dashboard</h2> */}
 

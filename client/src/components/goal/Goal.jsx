@@ -75,12 +75,6 @@ const Goal = () => {
                     Add Goal
                 </Button>
                 <AddGoalModal open={modalOpen} handleClose={handleCloseModal} updateGoal={getGoals} />
-                {/* <EditGoalModal
-                    open={editModalOpen}
-                    handleClose={handleEditModalClose}
-                    goal={selectedGoal}
-                    updateGoal={getGoals}
-                /> */}
             </div>
 
             <div className="bottom">
