@@ -62,27 +62,27 @@ const Budget = () => {
                 <div>budget</div>
                 <div id="piechart" style={{ width: '90%', height: '500px' }}></div>
 
-            </div>
+            
             <div>
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead>
-                            <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Amount</TableCell>
-                                <TableCell>Period</TableCell>
-                                <TableCell>Start Date</TableCell>
-                                <TableCell>End Date</TableCell>
+                            <TableRow className='table-header'>
+                                <TableCell className='center-align tab-header'>Name</TableCell>
+                                <TableCell className='center-align tab-header'>Amount</TableCell>
+                                <TableCell className='center-align tab-header'>Period</TableCell>
+                                <TableCell className='center-align tab-header'>Start Date</TableCell>
+                                <TableCell className='center-align tab-header'>End Date</TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody>
+                        <TableBody className='table-body'>
                             {budgets.map((budget) => (
-                                <TableRow key={budget._id}>
-                                    <TableCell>{budget.name}</TableCell>
-                                    <TableCell>{budget.amount}</TableCell>
-                                    <TableCell>{budget.period}</TableCell>
-                                    <TableCell>{new Date(budget.startDate).toLocaleDateString()}</TableCell>
-                                    <TableCell>{new Date(budget.endDate).toLocaleDateString()}</TableCell>
+                                <TableRow key={budget._id} className='table-row'>
+                                    <TableCell className='center-align'>{budget.name}</TableCell>
+                                    <TableCell className='center-align'>{budget.amount}</TableCell>
+                                    <TableCell className='center-align'>{budget.period}</TableCell>
+                                    <TableCell className='center-align'>{new Date(budget.startDate).toLocaleDateString()}</TableCell>
+                                    <TableCell className='center-align'>{new Date(budget.endDate).toLocaleDateString()}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -90,7 +90,7 @@ const Budget = () => {
                 </TableContainer>
 
             </div>
-
+            </div>
         </div>
     )
 }

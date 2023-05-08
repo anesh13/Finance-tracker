@@ -221,16 +221,16 @@ const Transaction = () => {
 
             <div className='bottom'>
 
-                <div id="piechart2" style={{ width: '90%', height: '500px' }}></div>
+                {/* <div id="piechart2" style={{ width: '90%', height: '500px' }}></div> */}
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead>
-                            <TableRow>
-                                <TableCell></TableCell>
-                                <TableCell>Type</TableCell>
-                                <TableCell>Category</TableCell>
-                                <TableCell>Amount</TableCell>
-                                <TableCell>Account</TableCell>
+                            <TableRow  className='table-head'>
+                                <TableCell className='center-align tab-header'></TableCell>
+                                <TableCell className='center-align tab-header'>Type</TableCell>
+                                <TableCell className='center-align tab-header'>Category</TableCell>
+                                <TableCell className='center-align tab-header'>Amount</TableCell>
+                                <TableCell className='center-align tab-header'>Account</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -239,11 +239,11 @@ const Transaction = () => {
             : allTransactions
           ).map((row) => (
                                 <TableRow key={row._id}>
-                                    <TableCell>{row.description}</TableCell>
-                                    <TableCell>{row.type}</TableCell>
-                                    <TableCell>{row.category}</TableCell>
-                                    <TableCell>{row.amount}</TableCell>
-                                    <TableCell>{row.account}</TableCell>
+                                    <TableCell className='center-align'>{row.description}</TableCell>
+                                    <TableCell className='center-align'>{row.type}</TableCell>
+                                    <TableCell className='center-align'>{row.category}</TableCell>
+                                    <TableCell className='center-align'>{row.amount}</TableCell>
+                                    <TableCell className='center-align'>{row.account}</TableCell>
                                 </TableRow>
                                 ))}
                         </TableBody>
@@ -269,10 +269,7 @@ const Transaction = () => {
           </TableFooter>
                     </Table>
                 </TableContainer>
-               
-      
-            </div>
-
+</div>
         </div>
     );
 };

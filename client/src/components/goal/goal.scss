@@ -1,20 +1,50 @@
 .goal {
   background-color: #f6f3f3;
   padding: 10px 30px 10px 30px;
-
-  .top {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 77px 10px 77px;
-  }
-
-  .bottom {
-    display: flex;
-    gap: 20px;
-    flex-direction: column;
-    align-items: center;
-
-    // background-color: lightblue;
-
-  }
 }
+
+.top {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  .add-goal {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    background-color: black;
+  }
+  .add-goal:hover {
+    background-color: #19a7ce;
+    color: black;
+    transition: 0.3s;
+  }
+ }
+ .bottom {
+  .table-header {
+    background-color: black;
+      .tab-header {
+        color: white;
+        font-size: larger;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+          'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      }
+  }
+  .center-align {
+    text-align: center;
+    font-size: 18px;
+  }
+  // .column-header {
+  //   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  //   transition: 0.3s;
+  // }
+  .table-row:hover {
+    cursor: pointer;
+    background-color: #71B340;
+    transition: 0.4s;
+  }
+  .edit-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
+ }
+ 
+ 

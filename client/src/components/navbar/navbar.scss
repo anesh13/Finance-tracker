@@ -3,18 +3,32 @@
   justify-content: space-between;
   padding: 10px 20px;
   border-bottom: 2px solid;
-
+ 
+ 
   span {
-
     font-size: 20px;
   }
-
-  .left {}
-
+ 
+ 
+  .left {
+    .logo {
+      color: black;
+      text-decoration: solid;
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: 900;
+    }
+  }
+ 
+ 
   .right {
     display: flex;
-    gap: 20px;
+ 
+ 
     cursor: pointer;
-
+    .icon-cls {
+      width: 50px;
+      height: 30px;
+    }
   }
-}
+ }
+ 
