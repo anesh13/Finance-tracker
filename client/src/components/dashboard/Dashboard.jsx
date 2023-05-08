@@ -54,7 +54,7 @@ const Dashboard = () => {
 
 
             setTransactions(transactionsResponse.data);
-            console.log(transactionsResponse.data);
+            // console.log(transactionsResponse.data);
         } catch (error) {
             console.error(error);
         }
@@ -70,7 +70,7 @@ const Dashboard = () => {
             const response = await axios.get(`${backendUrl}/budget/all`, { headers });
 
             setBudgets(response.data);
-            console.log(response.data);
+            // console.log(response.data);
         } catch (error) {
             console.error("Error fetching budgets:", error);
         }
@@ -86,7 +86,7 @@ const Dashboard = () => {
             const response = await axios.get(`${backendUrl}/goal/all`, { headers });
 
             setGoals(response.data);
-            console.log(response.data)
+            // console.log(response.data)
         } catch (error) {
             console.error('Error fetching goals:', error);
         }
@@ -207,7 +207,7 @@ const calculateSpentAmount = (budget, transactions) => {
             );
         }, 0);
 
-        console.log(spent);
+        // console.log(spent);
         return spent;
     }
 

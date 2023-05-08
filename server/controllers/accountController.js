@@ -13,7 +13,7 @@ const createAccount = async (req, res) => {
     });
     // store account in db
     await newAccount.save();
-    console.log(newAccount);
+    // console.log(newAccount);
 
     // return response to client
     res.status(201).json(newAccount);
@@ -35,7 +35,7 @@ const getAllAccounts = async (req, res) => {
       console.log('no accounts found');
       return;
     }
-    console.log(accounts);
+    // console.log(accounts);
 
     res.status(200).json(accounts);
   } catch (error) {

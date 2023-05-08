@@ -37,7 +37,7 @@ const Budget = () => {
             const response = await axios.get(`${backendUrl}/budget/all`, { headers });
 
             setBudgets(response.data);
-            console.log(response.data);
+            // console.log(response.data);
         } catch (error) {
             console.error("Error fetching budgets:", error);
         }

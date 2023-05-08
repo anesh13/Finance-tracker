@@ -17,8 +17,8 @@ const register = async (req, res) => {
       password: passwordHash,
     });
 
-    console.log(req.body.username);
-    console.log(req.body.password);
+    // console.log(req.body.username);
+    // console.log(req.body.password);
 
     // Check if username is already taken
     const userTaken = await UserModel.findOne({ username });
@@ -35,10 +35,10 @@ const register = async (req, res) => {
 
       // Return a success response to the client
       res.status(201).json({ message: 'Registration Successful' });
-      console.log(`signed up: ${newUser.username}`);
+      // console.log(`signed up: ${newUser.username}`);
     }
   } catch (err) {
-  // Handle errors and return an error response to the client
+    // Handle errors and return an error response to the client
     res.status(500).json({ message: err.message });
   }
 };
@@ -76,10 +76,11 @@ const login = async (req, res) => {
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: 1008000,
     });
+    // console.log(token);
     // Return a token as response to the client
     res.status(200).json({ token });
   } catch (error) {
-    console.log('LOGIN NOT WORKING');
+    // console.log('LOGIN NOT WORKING');
     res.status(500).json({ message: error });
   }
 };

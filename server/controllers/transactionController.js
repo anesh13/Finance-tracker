@@ -66,7 +66,7 @@ const getAllTransactions = async (req, res) => {
       console.log('no transactions found');
       return;
     }
-    console.log(transactions);
+    // console.log(transactions);
 
     res.status(200).json(transactions);
   } catch (error) {
@@ -79,8 +79,8 @@ const getTransaction = async (req, res) => {
   const transactionType = req.query.type; // expense or income
   // console.log(req.headers);
 
-  console.log(req.user._id);
-  console.log(transactionType);
+  // console.log(req.user._id);
+  // console.log(transactionType);
   try {
     // for testing without using jwt token user id
     // const id = new mongoose.Types.ObjectId(req.query.userId);
@@ -111,7 +111,7 @@ const getTransaction = async (req, res) => {
       { $sort: { totalAmount: -1 } },
     ]);
 
-    console.log(transactionsByCategory);
+    // console.log(transactionsByCategory);
     res.status(200).json(transactionsByCategory);
   } catch (error) {
     res.status(500).json({ message: error.message });

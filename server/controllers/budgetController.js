@@ -19,7 +19,7 @@ const createBudget = async (req, res) => {
       endDate,
       category,
     });
-    console.log(newBudget);
+    // console.log(newBudget);
 
     // store new budget to db
     await newBudget.save();
@@ -36,6 +36,7 @@ const getAllBudgets = async (req, res) => {
   try {
     // retrieve all the budgets using userId
     const budgets = await BudgetModel.find({ userId });
+    // console.log(budgets);
     res.status(200).json(budgets);
   } catch (error) {
     res.status(500).json({ message: error.message });
