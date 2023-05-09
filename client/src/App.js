@@ -18,6 +18,7 @@ import Goal from "./components/goal/Goal";
 import Transaction from "./components/transaction/Transaction";
 import Budget from "./components/budget/Budget";
 import Settings from "./components/settings/Settings";
+import Bill from "./components/bill/Bill";
 import { AuthContext } from "./contextApi/AuthContext";
 
 const App = () => {
@@ -86,6 +87,10 @@ const App = () => {
                 {
                     path: "/transaction",
                     element: <Transaction />,
+                },
+                {
+                    path: "/bill",
+                    element: <Bill />,
                 },
                 {
                     path: "/budget",
