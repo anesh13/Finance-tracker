@@ -18,12 +18,15 @@ import {
     // LinearProgress
 } from '@mui/material';
 import { Box, Typography, LinearProgress } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+
 
 const Goal = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [goals, setGoals] = useState([]);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedGoal, setSelectedGoal] = useState(null);
+    const { t } = useTranslation();
 
     const handleOpenModal = () => {
         setModalOpen(true);
@@ -96,8 +99,8 @@ const Goal = () => {
                         <TableBody className='table-body'>
                             {goals.map((goal) => (
                                 <TableRow key={goal._id} className='table-row'>
-                                    <TableCell className='center-align'>{goal.name}</TableCell>
-                                    <TableCell className='center-align'>{goal.description}</TableCell>
+                                    <TableCell className='center-align'>{t(goal.name)}</TableCell>
+                                    <TableCell className='center-align'>{t(goal.description)}</TableCell>
                                     <TableCell className='center-align'>{goal.currentAmount}</TableCell>
                                     <TableCell className='center-align'>{goal.targetAmount}</TableCell>
                                     {/* <TableCell>{goal.targetDate}</TableCell> */}

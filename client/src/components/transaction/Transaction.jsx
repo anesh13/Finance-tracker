@@ -21,7 +21,7 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-
+import { useTranslation } from 'react-i18next';
 
 import AddTransactionModal from './AddTransactionModal';
 import { Button } from '@mui/material';
@@ -29,7 +29,6 @@ import { Button } from '@mui/material';
 function TablePaginationActions(props) {
     const theme = useTheme();
     const { count, page, rowsPerPage, onPageChange } = props;
-  
     const handleFirstPageButtonClick = (event) => {
       onPageChange(event, 0);
     };
@@ -93,7 +92,7 @@ const Transaction = () => {
     const [type, setType] = useState('expense'); //expense default
     const [allTransactions, setAllTransactions] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
-
+    const { t } = useTranslation();
     const handleOpenModal = () => {
         setModalOpen(true);
     };
@@ -200,10 +199,10 @@ const Transaction = () => {
     return (
         <div className='transaction'>
             <div className='top'>
-                <h2> Transactions</h2>
+                <h2> {t('Transactions')}</h2>
                 <div>
                     <Button variant="contained" color="primary" onClick={handleOpenModal} style={{ margin: '20px 0' }}>
-                        Add Transaction
+                    {t('Add Transaction')}
                     </Button>
                     <AddTransactionModal open={modalOpen} handleClose={handleCloseModal} handleAddedTransaction={getTransactions} />
                 </div>
@@ -239,11 +238,11 @@ const Transaction = () => {
             : allTransactions
           ).map((row) => (
                                 <TableRow key={row._id}>
-                                    <TableCell className='center-align'>{row.description}</TableCell>
-                                    <TableCell className='center-align'>{row.type}</TableCell>
-                                    <TableCell className='center-align'>{row.category}</TableCell>
+                                    <TableCell className='center-align'>{t(row.description)}</TableCell>
+                                    <TableCell className='center-align'>{t(row.type)}</TableCell>
+                                    <TableCell className='center-align'>{t(row.category)}</TableCell>
                                     <TableCell className='center-align'>{row.amount}</TableCell>
-                                    <TableCell className='center-align'>{row.account}</TableCell>
+                                    <TableCell className='center-align'>{t(row.account)}</TableCell>
                                 </TableRow>
                                 ))}
                         </TableBody>

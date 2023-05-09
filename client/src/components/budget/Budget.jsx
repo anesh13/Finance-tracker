@@ -13,10 +13,12 @@ import {
     TableRow,
     Paper
 } from "@mui/material";
+import { useTranslation } from 'react-i18next';
 
 const Budget = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [budgets, setBudgets] = useState([]);
+    const { t } = useTranslation();
 
     const handleOpenModal = () => {
         setModalOpen(true);
@@ -78,9 +80,9 @@ const Budget = () => {
                         <TableBody className='table-body'>
                             {budgets.map((budget) => (
                                 <TableRow key={budget._id} className='table-row'>
-                                    <TableCell className='center-align'>{budget.name}</TableCell>
+                                    <TableCell className='center-align'>{t(budget.name)}</TableCell>
                                     <TableCell className='center-align'>{budget.amount}</TableCell>
-                                    <TableCell className='center-align'>{budget.period}</TableCell>
+                                    <TableCell className='center-align'>{t(budget.period)}</TableCell>
                                     <TableCell className='center-align'>{new Date(budget.startDate).toLocaleDateString()}</TableCell>
                                     <TableCell className='center-align'>{new Date(budget.endDate).toLocaleDateString()}</TableCell>
                                 </TableRow>

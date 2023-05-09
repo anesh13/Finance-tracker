@@ -3,6 +3,8 @@ import './dashboard.scss';
 import axios from 'axios';
 import { backendUrl } from '../../config';
 //import { NextSeo } from "next-seo";
+import { useTranslation } from 'react-i18next';
+
 
 const Dashboard = () => {
     const [accounts, setAccounts] = useState([]);
@@ -10,6 +12,8 @@ const Dashboard = () => {
     const [budgets, setBudgets] = useState([]);
     const [goals, setGoals] = useState([]);
     const token = localStorage.getItem('token');
+    const { t } = useTranslation();
+
     useEffect(() => {
 
         fetchAccounts();
@@ -114,7 +118,7 @@ const Dashboard = () => {
                 <ul>
                     {accounts.map((account) => (
                         <li key={account._id}>
-                            {account.name} - {account.balance}
+                            {t(account.name)} - {account.balance}
                         </li>
                     ))}
                 </ul>
@@ -133,7 +137,7 @@ const Dashboard = () => {
 
                         return (
                             <li key={transaction._id}>
-                                {formattedDate}: {transaction.description} - {transaction.amount}
+                                {t(formattedDate)}: {t(transaction.description)} - {transaction.amount}
                             </li>
                         );
                     })}
@@ -147,7 +151,7 @@ const Dashboard = () => {
                     const spent = calculateSpentAmount(budget, transactions);
                     return (
                         <div key={budget._id} className="budget-item">
-                            <p>{budget.name}</p>
+                            <p>{t(budget.name)}</p>
                             <progress value={spent} max={budget.amount}></progress>
                         </div>
                     );
@@ -160,7 +164,7 @@ const Dashboard = () => {
                 {goals.map((goal) => (
                     <div key={goal._id} className="goal-item">
 
-                        <p>{goal.name}</p>
+                        <p>{t(goal.name)}</p>
                         <progress value={goal.currentAmount} max={goal.targetAmount}></progress>
                     </div>
                 ))}
