@@ -190,11 +190,11 @@ const Transaction = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const transactionsTable = useMemo(() => {
-    const firstPageIndex = (page - 1) * rowsPerPage;
-    const lastPageIndex = firstPageIndex + rowsPerPage;
-    return allTransactions.slice(firstPageIndex, lastPageIndex);
-  }, [page]);
+//   const transactionsTable = useMemo(() => {
+//     const firstPageIndex = (page - 1) * rowsPerPage;
+//     const lastPageIndex = firstPageIndex + rowsPerPage;
+//     return allTransactions.slice(firstPageIndex, lastPageIndex);
+//   }, [page]);
 
     return (
         <div className='transaction'>
