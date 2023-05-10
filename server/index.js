@@ -10,6 +10,7 @@ import categoryRoute from './routes/category.js';
 import budgetRoute from './routes/budget.js';
 import goalRoute from './routes/goal.js';
 import billRoute from './routes/bills.js';
+import chatbotRoute from './routes/chatbot.js';
 
 const app = express(); // create an express app
 app.use(cors()); // todo configure allowed domain/origin later
@@ -45,6 +46,7 @@ app.use('/category', categoryRoute);
 app.use('/budget', budgetRoute);
 app.use('/goal', goalRoute);
 app.use('/bill', billRoute);
+app.use('/chat', chatbotRoute);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
