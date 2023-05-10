@@ -57,12 +57,14 @@ const addTransaction = async (req, res) => {
 const getAllTransactions = async (req, res) => {
   try {
     const userId = req.user._id;
-    const transactions = await TransactionModel.find({ userId });
+    const transactions = await TransactionModel.find({ userId })
+      .populate('account', 'name') // retrieve account name instead of id
+      .populate('category', 'name'); //retrieve category name instead of id
 
     // no transactions found
     if (!transactions) {
       // not found
-      res.status(4004).json({ message: 'no transactions found' });
+      res.status(404).json({ message: 'no transactions found' });
       console.log('no transactions found');
       return;
     }
