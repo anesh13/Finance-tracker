@@ -2,10 +2,11 @@ import './leftBar.scss';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SportsScoreTwoToneIcon from '@mui/icons-material/SportsScoreTwoTone';
-import SavingsOutlinedIcon from '@mui/icons-material/SavingsOutlined';
-import AttachMoneySharpIcon from '@mui/icons-material/AttachMoneySharp';
-
-
+// import SavingsOutlinedIcon from '@mui/icons-material/SavingsOutlined';
+// import AttachMoneySharpIcon from '@mui/icons-material/AttachMoneySharp';
+import budgetIcon from './budgetIcon.png';
+import billIcon from './invoiceIcon.png';
+import transactionIcon from './transactionIcon.png';
 import { NavLink } from 'react-router-dom';
 
 
@@ -22,20 +23,33 @@ const LeftBar = () => {
           </NavLink>
           <NavLink to='/transaction' style={{ textDecoration: 'none' }}>
             <div className='item'>
-              <AttachMoneySharpIcon className='option' />
-              <span className='option'>Transaction</span>
+              {/* <AttachMoneySharpIcon className='option' /> */}
+              <img className='option' src={transactionIcon} alt="bill icon" style={{ width: '24px', height: '24px' }} />
+
+              {/* <a href="https://www.flaticon.com/free-icons/lending" title="lending icons">Lending icons created by Eucalyp - Flaticon</a> */}
+              <span className='option' style={{ marginLeft: '1px' }}>
+                Transaction
+              </span>
             </div>
           </NavLink>
           <NavLink to='/bill' style={{ textDecoration: 'none' }}>
             <div className='item'>
-              <AttachMoneySharpIcon className='option' />
-              <span className='option'>Bill</span>
+              {/* <AttachMoneySharpIcon className='option' /> */}
+              <img className='option' src={billIcon} alt="bill icon" style={{ width: '20px', height: '20px' }} />
+              {/* <a href="https://www.flaticon.com/free-icons/bill" title="bill icons">Bill icons created by Kiranshastry - Flaticon</a> */}
+              <span className='option' style={{ marginLeft: '6px' }}>
+                Bill
+              </span>
             </div>
           </NavLink>
           <NavLink to='/budget' style={{ textDecoration: 'none' }}>
             <div className='item'>
-              <SavingsOutlinedIcon className='option' />
-              <span className='option'>Budget</span>
+              {/* <SavingsOutlinedIcon className='option' /> */}
+              <img className='option' src={budgetIcon} alt="budget icon" style={{ width: '22px', height: '22px' }} />
+              {/* <a href="https://www.flaticon.com/free-icons/budget" title="budget icons">Budget icons created by Freepik - Flaticon</a> */}
+              <span className='option' style={{ marginLeft: '4px' }}>
+                Budget
+              </span>
             </div>
           </NavLink>
           <NavLink to='/goal' style={{ textDecoration: 'none' }}>
