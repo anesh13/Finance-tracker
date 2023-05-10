@@ -20,6 +20,7 @@ import Budget from "./components/budget/Budget";
 import Settings from "./components/settings/Settings";
 import Bill from "./components/bill/Bill";
 import { AuthContext } from "./contextApi/AuthContext";
+import Chatbot from "./components/chatbot/Chatbot";
 
 const App = () => {
     // const currentUser = localStorage.getItem('username');
@@ -46,6 +47,7 @@ const App = () => {
                     </div>
                 </div>
                 <Footer />
+                <Chatbot />
             </div>
 
         );

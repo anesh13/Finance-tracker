@@ -1,13 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import App from './App';
 import { AuthProvider } from './contextApi/AuthContext';
 import './index.scss';
 
 import { I18nextProvider } from 'react-i18next';
 import i18n from 'i18next';
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
 
 i18n.init({
   interpolation: { escapeValue: false },
@@ -23,18 +21,13 @@ i18n.init({
   },
 });
 
-
-root.render(
+ReactDOM.render(
   <React.StrictMode>
-
-    {/* wrap AuthProvider in App to pass value */}
     <AuthProvider>
       <I18nextProvider i18n={i18n}>
-      <App />
-      </I18nextProvider>,
+        <App />
+      </I18nextProvider>
     </AuthProvider>
-
-
-  </React.StrictMode>
+  </React.StrictMode>,
+  document.getElementById('root')
 );
-
