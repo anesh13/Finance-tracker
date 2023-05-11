@@ -15,24 +15,12 @@ const Dashboard = () => {
  const token = localStorage.getItem('token');
  const { t } = useTranslation();
 
-
  const data = [
-   [
-     'Savings vs Debt vs Net Worth',
-     'Checking & Saving',
-     'Total Debt',
-     'Net Worth',
-   ],
-   [
-     ' ',
-     calculateTotalSavingsAndChecking(accounts),
-     calculateTotalDebt(accounts),
-     calculateNetWorth(
-       calculateTotalSavingsAndChecking(accounts),
-       calculateTotalDebt(accounts)
-     ),
-   ],
- ];
+    ["Summary", " $", { role: "style" }],
+    ["Savings & Checking",  calculateTotalSavingsAndChecking(accounts), "#658eaa"],
+    ["Total Debt",  calculateTotalDebt(accounts),"#8b65aa"], 
+    ["Net Worth",  calculateNetWorth(calculateTotalSavingsAndChecking(accounts),calculateTotalDebt(accounts)),"#6566aa"],
+  ];
 
 
  const options = {
@@ -135,13 +123,9 @@ const Dashboard = () => {
      <div className='dashboard'>
        {/* <h2>Dashboard</h2> */}
        <div className='overview'>
-         <Chart
-           chartType='Bar'
-           width='100%'
-           height='400px'
-           data={data}
-           options={options}
-         />
+         <h3 className='tile-heading'>Account Overview</h3>
+          <Chart chartType="ColumnChart" width="100%" height="320px" data={data} />
+ 
        </div>
 
 
@@ -183,7 +167,7 @@ const Dashboard = () => {
            return (
              <div className='account-tile' key={transaction._id}>
                {t(formattedDate)}: {t(transaction.description)} -{' '}
-               {transaction.amount}
+               ${transaction.amount}
              </div>
            );
          })}
