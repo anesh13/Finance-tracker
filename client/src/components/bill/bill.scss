@@ -1,7 +1,6 @@
 .bills {
     background-color: #f6f3f3;
     padding: 10px 30px 10px 30px;
-    // min-height: 100vh;
     min-height: calc(100vh - 140px); //subtracted height of navbar & footer
 
     .top {
@@ -16,7 +15,48 @@
         flex-direction: column;
         align-items: center;
 
-        background-color: lightblue;
 
+        // due/paid button
+        .bill-status-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .MuiToggleButtonGroup-root {
+                border: none;
+                box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+
+                .MuiToggleButtonGroup-groupedHorizontal:not(:last-child) {
+                    border-right: none;
+                }
+            }
+
+            .MuiToggleButton-root {
+                border-radius: 0;
+
+                &:hover {
+                    background-color: #dcdcdc;
+                }
+
+                &.Mui-selected {
+                    color: #fff;
+                    background-color: #1976d2;
+
+                    &:hover {
+                        background-color: #1565c0;
+                    }
+                }
+            }
+        }
+
+
+        //table
+        .TableContainer {
+            width: 70%;
+
+            tbody tr:hover {
+                background-color: #f0f0f0;
+            }
+        }
     }
 }

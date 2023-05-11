@@ -1,3 +1,4 @@
+
 import AddBillModal from './AddBillModal';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -10,12 +11,28 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Paper
+    Paper,
+    // FormControlLabel,
+    // Switch,
+    TablePagination,
+    TableSortLabel,
+    Chip,
+    ToggleButton,
+    ToggleButtonGroup
 } from "@mui/material";
 import './bill.scss';
+
 const Bill = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [bills, setBills] = useState([]);
+    // const [showPaidBills, setShowPaidBills] = useState(false);
+    const [billStatus, setBillStatus] = useState('due');
+
+
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [orderBy, setOrderBy] = useState('dueDate');
+    const [order, setOrder] = useState('asc');
 
     const handleOpenModal = () => {
         setModalOpen(true);
@@ -61,6 +78,62 @@ const Bill = () => {
         getBills();
     }, []);
 
+
+    //filter paid or unpaid bills
+    // const filteredBills = showPaidBills ? bills.filter((bill) => bill.isPaid) : bills;
+    // const filteredBills = showPaidBills ? bills.filter((bill) => bill.isPaid) : bills.filter((bill) => !bill.isPaid);
+    const filteredBills = bills.filter((bill) => {
+        if (billStatus === 'due') {
+            return !bill.isPaid;
+        } else if (billStatus === 'paid') {
+            return bill.isPaid;
+        }
+        return true;
+    });
+
+
+
+
+    const sortedBills = filteredBills.sort((a, b) => {
+        const isAsc = order === 'asc';
+        if (orderBy === 'name') {
+            return isAsc ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+        } else if (orderBy === 'amount') {
+            return isAsc ? a.amount - b.amount : b.amount - a.amount;
+        } else if (orderBy === 'dueDate') {
+            return isAsc ? new Date(a.dueDate) - new Date(b.dueDate) : new Date(b.dueDate) - new Date(a.dueDate);
+        }
+        return 0;
+    });
+
+    const handleBillStatusChange = (event, newStatus) => {
+        if (newStatus !== null) {
+            setBillStatus(newStatus);
+        }
+    };
+
+    const handlePageChange = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleRowsPerPageChange = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
+    const handleSortChange = (property) => {
+        const newOrderBy = property;
+        let newOrder = 'desc';
+
+        if (orderBy === property && order === 'desc') {
+            newOrder = 'asc';
+        }
+
+        setOrder(newOrder);
+        setOrderBy(newOrderBy);
+    };
+
+
     return (
         <div className="bills">
             <div className='top'>
@@ -73,24 +146,76 @@ const Bill = () => {
             </div>
 
             <div className="bottom">
-                <TableContainer component={Paper}>
+
+                {/* toggle for paid or unpaid bills */}
+                {/* <FormControlLabel
+                    control={
+                        <Switch
+                            checked={showPaidBills}
+                            onChange={() => setShowPaidBills(!showPaidBills)}
+                            name="showPaidBills"
+                        />
+                    }
+                    label="Show Paid Bills"
+                /> */}
+                <div className="bill-status-toggle">
+                    <ToggleButtonGroup
+                        value={billStatus}
+                        exclusive
+                        onChange={handleBillStatusChange}
+                        aria-label="bill status"
+                    >
+                        <ToggleButton value="due" aria-label="due">
+                            Due
+                        </ToggleButton>
+                        <ToggleButton value="paid" aria-label="paid">
+                            Paid
+                        </ToggleButton>
+                    </ToggleButtonGroup>
+                </div>
+
+                <TableContainer className='TableContainer' component={Paper}>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Amount</TableCell>
-                                <TableCell>Due Date</TableCell>
-                                {/* <TableCell>Action</TableCell> */}
+                                <TableCell sortDirection={orderBy === 'name' ? order : false}>
+                                    <TableSortLabel
+                                        active={orderBy === 'name'}
+                                        direction={orderBy === 'name' ? order : 'asc'}
+                                        onClick={() => handleSortChange('name')}
+                                    >
+                                        Name
+                                    </TableSortLabel>
+                                </TableCell>
+                                <TableCell sortDirection={orderBy === 'amount' ? order : false}>
+                                    <TableSortLabel
+                                        active={orderBy === 'amount'}
+                                        direction={orderBy === 'amount' ? order : 'asc'}
+                                        onClick={() => handleSortChange('amount')}
+                                    >
+                                        Amount
+                                    </TableSortLabel>
+                                </TableCell>
+                                <TableCell sortDirection={orderBy === 'dueDate' ? order : false}>
+                                    <TableSortLabel
+                                        active={orderBy === 'dueDate'}
+                                        direction={orderBy === 'dueDate' ? order : 'asc'}
+                                        onClick={() => handleSortChange('dueDate')}
+                                    >
+                                        Due Date
+                                    </TableSortLabel>
+                                </TableCell>
+                                <TableCell>Action</TableCell>
 
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {bills.map((bill) => (
+                            {sortedBills.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((bill) => (
                                 <TableRow key={bill._id}>
                                     <TableCell>{bill.name}</TableCell>
                                     <TableCell>{bill.amount}</TableCell>
                                     <TableCell>{new Date(bill.dueDate).toLocaleDateString()}</TableCell>
-                                    <TableCell>
+                                    {/* <TableCell>
                                         <Button
                                             variant="contained"
                                             color={bill.isPaid ? "secondary" : "primary"}
@@ -98,15 +223,33 @@ const Bill = () => {
                                         >
                                             {bill.isPaid ? "Unmark as Paid" : "Mark as Paid"}
                                         </Button>
+                                    </TableCell> */}
+                                    <TableCell>
+                                        <Chip
+                                            label={bill.isPaid ? "Paid" : "Mark as Paid"}
+                                            onClick={() => handleMarkAsPaid(bill._id, !bill.isPaid)}
+                                            color={bill.isPaid ? "secondary" : "primary"}
+                                        />
                                     </TableCell>
-                                </TableRow>
 
+                                </TableRow>
                             ))}
                         </TableBody>
                     </Table>
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25]}
+                        component="div"
+                        count={sortedBills.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handlePageChange}
+                        onRowsPerPageChange={handleRowsPerPageChange}
+                    />
                 </TableContainer>
             </div>
         </div>
-    )
+
+
+    );
 }
 export default Bill;
