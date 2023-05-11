@@ -11,90 +11,90 @@ import { Button } from '@mui/material';
 
 
 const Login = () => {
- const [username, setUsername] = useState('');
- const [password, setPassword] = useState('');
- const [errorMessage, setErrorMessage] = useState('');
- const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
 
- const { currentUser, login } = useContext(AuthContext); //access the shared state
- // console.log('login current user: ' + currentUser);
- const handleLogin = async (e) => {
-   e.preventDefault();
+  const { currentUser, login } = useContext(AuthContext); //access the shared state
+  // console.log('login current user: ' + currentUser);
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
 
-   try {
-     const response = await axios.post(`${backendUrl}/user/login`, {
-       username,
-       password,
-     });
-     // console.log(response.data);
+    try {
+      const response = await axios.post(`${backendUrl}/user/login`, {
+        username,
+        password,
+      });
+      // console.log(response.data);
 
 
-     const { token } = response.data;
-     const decoded = jwt_decode(token);
-     console.log(decoded.username);
+      const { token } = response.data;
+      const decoded = jwt_decode(token);
+      console.log(decoded.username);
 
 
-     await login(token); //set token in local storage and context state
-     // Save in local storage
-     // localStorage.setItem("token", token);
-     // localStorage.setItem("user_id", decoded._id);
-     // localStorage.setItem("username", decoded.username);
+      await login(token); //set token in local storage and context state
+      // Save in local storage
+      // localStorage.setItem("token", token);
+      // localStorage.setItem("user_id", decoded._id);
+      // localStorage.setItem("username", decoded.username);
 
 
-     // Navigate to home page
-     // navigate('/');
-   } catch (error) {
-     console.error(error);
-     //set the error message
-     setErrorMessage(error.response.data.message);
-   }
- };
+      // Navigate to home page
+      // navigate('/');
+    } catch (error) {
+      console.error(error);
+      //set the error message
+      setErrorMessage(error.response.data.message);
+    }
+  };
 
 
- //navigate to the homepage ('/') when the currentUser state is updated
- useEffect(() => {
-   if (currentUser) {
-     navigate('/login');
-   }
- }, [currentUser, navigate]);
+  //navigate to the homepage ('/') when the currentUser state is updated
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/');
+    }
+  }, [currentUser, navigate]);
 
 
- return (
-   <div className='register-box'>
-     <div className='form'>
-       <div className='register-header'>
-         <h3>Login here</h3>
-       </div>
-       <form onSubmit={handleLogin} className='register-form'>
-         <TextField
-           id='outlined-basic'
-           label='Username'
-           variant='outlined'
-           onChange={(e) => {
-             setUsername(e.target.value);
-           }}
-         />
-         <TextField
-           id='outlined-password-input'
-           label='Password'
-           type='password'
-           required
-           onChange={(e) => {
-             setPassword(e.target.value);
-           }}
-         />
+  return (
+    <div className='register-box'>
+      <div className='form'>
+        <div className='register-header'>
+          <h3>Login here</h3>
+        </div>
+        <form onSubmit={handleLogin} className='register-form'>
+          <TextField
+            id='outlined-basic'
+            label='Username'
+            variant='outlined'
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+          />
+          <TextField
+            id='outlined-password-input'
+            label='Password'
+            type='password'
+            required
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
 
 
-         <Button type='submit' variant='contained'>
-           Login
-         </Button>
-       </form>
-       {errorMessage && <p>{errorMessage}</p>}
-     </div>
-   </div>
- );
+          <Button type='submit' variant='contained'>
+            Login
+          </Button>
+        </form>
+        {errorMessage && <p>{errorMessage}</p>}
+      </div>
+    </div>
+  );
 };
 
 
