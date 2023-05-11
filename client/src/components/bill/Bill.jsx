@@ -240,7 +240,7 @@ const Bill = () => {
                             {sortedBills.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((bill) => (
                                 <TableRow key={bill._id} className='table-row'>
                                     <TableCell className='center-align'>{bill.name}</TableCell>
-                                    <TableCell className='center-align'>{bill.amount}</TableCell>
+                                    <TableCell className='center-align'>${bill.amount}</TableCell>
                                     <TableCell className='center-align'>{new Date(bill.dueDate).toLocaleDateString()}</TableCell>
                                     {/* <TableCell>
                                         <Button

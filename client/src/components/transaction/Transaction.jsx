@@ -399,7 +399,7 @@ const Transaction = () => {
                     <TableCell className='center-align'>{t(transaction.description)}</TableCell>
                     <TableCell className='center-align'>{t(transaction.type)}</TableCell>
                     <TableCell className='center-align'>{t(transaction.category.name)}</TableCell>
-                    <TableCell className='center-align'>{transaction.amount}</TableCell>
+                    <TableCell className='center-align'>${transaction.amount}</TableCell>
                     <TableCell className='center-align'>{t(transaction.account.name)}</TableCell>
 
 

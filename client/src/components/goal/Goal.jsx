@@ -5,7 +5,7 @@ import axios from 'axios';
 import { backendUrl } from '../../config';
 import { Button } from '@mui/material';
 import './goal.scss';
-
+import { Chart } from "react-google-charts";
 import {
     Table,
     TableBody,
@@ -103,39 +103,20 @@ const Goal = () => {
         return (currentAmount / targetAmount) * 100;
     };
 
-    //  var data = new google.visualization.DataTable();
-    //  data.addColumn('timeofday', 'Time of Day');
-    //  data.addColumn('number', 'Motivation Level');
-    //  data.addColumn('number', 'Energy Level');
-
-    // data.addRows([
-    //   [{v: [8, 0, 0], f: '8 am'}, 1, .25],
-    //   [{v: [9, 0, 0], f: '9 am'}, 2, .5],
-    //   [{v: [10, 0, 0], f:'10 am'}, 3, 1],
-    //   [{v: [11, 0, 0], f: '11 am'}, 4, 2.25],
-    //   [{v: [12, 0, 0], f: '12 pm'}, 5, 2.25],
-    //   [{v: [13, 0, 0], f: '1 pm'}, 6, 3],
-    //   [{v: [14, 0, 0], f: '2 pm'}, 7, 4],
-    //   [{v: [15, 0, 0], f: '3 pm'}, 8, 5.25],
-    //   [{v: [16, 0, 0], f: '4 pm'}, 9, 7.5],
-    //   [{v: [17, 0, 0], f: '5 pm'}, 10, 10],
-    // ]);
-
-    // var options = {
-    //   title: 'Motivation and Energy Level Throughout the Day',
-    //   isStacked: true,
-    //   hAxis: {
-    //     title: 'Time of Day',
-    //     format: 'h:mm a',
-    //     viewWindow: {
-    //       min: [7, 30, 0],
-    //       max: [17, 30, 0]
-    //     }
-    //   },
-    //   vAxis: {
-    //     title: 'Rating (scale of 1-10)'
-    //   }
-    // };
+ const data = [
+  ["Goal", "Target Amount", "Current Amount"],];
+goals.map((goal) => data.push([String(goal.name), goal.targetAmount, goal.currentAmount]));
+ const options = {
+  title: "Goals",
+  chartArea: { width: "50%" },
+  hAxis: {
+    title: "Amount",
+    minValue: 0,
+  },
+  vAxis: {
+    title: "Goal",
+  },
+};
 
 
     //sort/ pagination
@@ -170,13 +151,13 @@ const Goal = () => {
             </div>
 
             <div className="bottom">
-                {/* <Chart
-          chartType='Bar'
-          width='100%'
-          height='400px'
-          data={data}
-          options={options}
-        /> */}
+            <Chart
+      chartType="BarChart"
+      width="100%"
+      height="400px"
+      data={data}
+      options={options}
+    />
                 <div id="piechart" style={{ width: '90%', height: '500px' }}></div>
             </div>
 
@@ -202,8 +183,8 @@ const Goal = () => {
                                     <TableRow key={goal._id} className='table-row'>
                                         <TableCell className='center-align'>{t(goal.name)}</TableCell>
                                         <TableCell className='center-align'>{t(goal.description)}</TableCell>
-                                        <TableCell className='center-align'>{goal.currentAmount}</TableCell>
-                                        <TableCell className='center-align'>{goal.targetAmount}</TableCell>
+                                        <TableCell className='center-align'>${goal.currentAmount}</TableCell>
+                                        <TableCell className='center-align'>${goal.targetAmount}</TableCell>
                                         {/* <TableCell>{goal.targetDate}</TableCell> */}
                                         <TableCell className='center-align'>
                                             {(goal.targetDate).slice(0, 10)}

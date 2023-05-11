@@ -236,7 +236,7 @@ const Budget = () => {
                                 .map((budget) => (
                                     <TableRow key={budget._id}>
                                         <TableCell className='center-align'>{budget.name}</TableCell>
-                                        <TableCell className='center-align'>{budget.amount}</TableCell>
+                                        <TableCell className='center-align'>${budget.amount}</TableCell>
                                         <TableCell className='center-align'>{budget.period}</TableCell>
                                         <TableCell className='center-align'>{new Date(budget.startDate).toLocaleDateString()}</TableCell>
                                         <TableCell className='center-align'>{new Date(budget.endDate).toLocaleDateString()}</TableCell>
