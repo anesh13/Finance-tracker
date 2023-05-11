@@ -50,13 +50,64 @@
         }
 
 
-        //table
-        .TableContainer {
-            width: 70%;
+        // //table
+        // .TableContainer {
+        //     width: 70%;
 
-            tbody tr:hover {
-                background-color: #f0f0f0;
+        //     tbody tr:hover {
+        //         background-color: #f0f0f0;
+        //     }
+        // }
+
+
+
+        .table-header {
+            background-color: black;
+
+
+
+            .tab-header {
+                color: white;
+                font-size: larger;
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+                    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+
+
+
+                // //sort active will turn black as primary, need to change to white since .table-header {background-color: black;
+                // .css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root.Mui-active {
+                //     color: white;
+                // }
+                .MuiTableSortLabel-root {
+                    color: white;
+
+                    &.MuiTableSortLabel-active {
+                        color: white;
+                    }
+
+                    .MuiTableSortLabel-icon {
+                        color: white !important;
+                    }
+                }
+
             }
+        }
+
+        .center-align {
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .table-row:hover {
+            cursor: pointer;
+            background-color: #f6f3f3;
+            transition: 0.4s;
+        }
+
+        .edit-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
         }
     }
 }

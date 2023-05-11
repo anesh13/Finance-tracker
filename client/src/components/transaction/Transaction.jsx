@@ -24,7 +24,15 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import { useTranslation } from 'react-i18next';
 
 import AddTransactionModal from './AddTransactionModal';
-import { Button } from '@mui/material';
+import {
+  Button,
+  TableSortLabel,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
+import { MoreVert, Edit, Delete } from '@mui/icons-material';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -93,6 +101,25 @@ const Transaction = () => {
   const [allTransactions, setAllTransactions] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const { t } = useTranslation();
+
+  //sort
+  const [orderBy, setOrderBy] = useState('null');
+  const [order, setOrder] = useState('asc');
+
+
+
+  //menu item for edit or remove goal
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleOpenMenu = (e, transaction) => {
+    // setEditTransaction(goal);
+    setAnchorEl(e.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    // setEditTransaction(null);
+    setAnchorEl(null);
+  };
+
+
   const handleOpenModal = () => {
     setModalOpen(true);
   };
@@ -200,6 +227,48 @@ const Transaction = () => {
   //     return allTransactions.slice(firstPageIndex, lastPageIndex);
   //   }, [page]);
 
+
+  //sort
+  const handleSortChange = (property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+  const stableSort = (array, comparator) => {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  };
+
+  const getComparator = (order, orderBy) => {
+    return order === 'desc'
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  };
+
+  const descendingComparator = (a, b, orderBy) => {
+    let aValue = a[orderBy];
+    let bValue = b[orderBy];
+
+    if (['category', 'account'].includes(orderBy)) {
+      aValue = a[orderBy].name;
+      bValue = b[orderBy].name;
+    }
+
+    if (bValue < aValue) {
+      return -1;
+    }
+    if (bValue > aValue) {
+      return 1;
+    }
+    return 0;
+  };
+
+
   return (
     <div className='transaction'>
       <div className='top'>
@@ -214,7 +283,7 @@ const Transaction = () => {
 
       <div className='bottom'>
 
-        <div id="piechart" style={{ width: '90%', height: '500px' }}></div>
+        <div id="piechart" style={{ width: '100%', height: '500px' }}></div>
 
         {/* <select className='select' value={type} onChange={(e) => setType(e.target.value)}>
                     <option value="expense">Expenses</option>
@@ -225,23 +294,87 @@ const Transaction = () => {
       <div className='bottom'>
 
         {/* <div id="piechart2" style={{ width: '90%', height: '500px' }}></div> */}
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} >
           <Table>
             <TableHead>
-              <TableRow className='table-head'>
-                <TableCell className='center-align tab-header'>Description</TableCell>
-                <TableCell className='center-align tab-header'>Type</TableCell>
-                <TableCell className='center-align tab-header'>Category</TableCell>
-                <TableCell className='center-align tab-header'>Amount</TableCell>
-                <TableCell className='center-align tab-header'>Account</TableCell>
+              <TableRow className='table-header'>
+
+                <TableCell className='center-align tab-header'>
+                  <TableSortLabel
+                    active={orderBy === 'createdAt'}
+                    direction={orderBy === 'createdAt' ? order : 'asc'}
+                    onClick={() => handleSortChange('createdAt')}
+                  >
+                    Date
+                  </TableSortLabel>
+                </TableCell>
+
+
+                {/* <TableCell className='center-align tab-header'>Description</TableCell> */}
+
+                <TableCell className='center-align tab-header'>
+                  <TableSortLabel
+                    active={orderBy === 'description'}
+                    direction={orderBy === 'description' ? order : 'asc'}
+                    onClick={() => handleSortChange('description')}
+                  >
+                    Description
+                  </TableSortLabel>
+                </TableCell>
+
+                <TableCell className='center-align tab-header'>
+                  <TableSortLabel
+                    active={orderBy === 'type'}
+                    direction={orderBy === 'type' ? order : 'asc'}
+                    onClick={() => handleSortChange('type')}
+                  >
+                    Type
+                  </TableSortLabel>
+                </TableCell>
+
+                <TableCell className='center-align tab-header'>
+                  <TableSortLabel
+                    active={orderBy === 'category'}
+                    direction={orderBy === 'category' ? order : 'asc'}
+                    onClick={() => handleSortChange('category')}
+                  >
+                    Category
+                  </TableSortLabel>
+                </TableCell>
+
+                <TableCell className='center-align tab-header'>
+                  <TableSortLabel
+                    active={orderBy === 'amount'}
+                    direction={orderBy === 'amount' ? order : 'asc'}
+                    onClick={() => handleSortChange('amount')}
+                  >
+                    Amount
+                  </TableSortLabel>
+                </TableCell>
+
+                <TableCell className='center-align tab-header'>
+                  <TableSortLabel
+                    active={orderBy === 'account'}
+                    direction={orderBy === 'account' ? order : 'asc'}
+                    onClick={() => handleSortChange('account')}
+                  >
+                    Account
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell className='center-align tab-header'> </TableCell>
+
               </TableRow>
+
+
             </TableHead>
-            <TableBody>
-              {(rowsPerPage > 0
-                ? allTransactions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                : allTransactions
+            {/* <TableBody>
+              {stableSort(
+                rowsPerPage > 0
+                  ? allTransactions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  : allTransactions,
+                getComparator(order, orderBy)
               ).map((row) => (
-                <TableRow key={row._id}>
+                <TableRow key={row._id} className='table-row'>
                   <TableCell className='center-align'>{t(row.description)}</TableCell>
                   <TableCell className='center-align'>{t(row.type)}</TableCell>
                   <TableCell className='center-align'>{t(row.category.name)}</TableCell>
@@ -249,6 +382,58 @@ const Transaction = () => {
                   <TableCell className='center-align'>{t(row.account.name)}</TableCell>
                 </TableRow>
               ))}
+            </TableBody> */}
+
+            {/* sort entire data set, not just the current rows displayed on table */}
+            <TableBody>
+              {stableSort(
+                rowsPerPage > 0 ? allTransactions : allTransactions.slice(0),
+                getComparator(order, orderBy)
+              )
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((transaction) => (
+                  <TableRow key={transaction._id}>
+                    {/* <TableCell className='center-align'>{(transaction.createdAt).slice(0, 10)} </TableCell> */}
+                    <TableCell className='center-align'>{new Date(transaction.createdAt).toLocaleDateString()}</TableCell>
+
+                    <TableCell className='center-align'>{t(transaction.description)}</TableCell>
+                    <TableCell className='center-align'>{t(transaction.type)}</TableCell>
+                    <TableCell className='center-align'>{t(transaction.category.name)}</TableCell>
+                    <TableCell className='center-align'>{transaction.amount}</TableCell>
+                    <TableCell className='center-align'>{t(transaction.account.name)}</TableCell>
+
+
+                    {/* edit/remove */}
+                    <TableCell>
+                      <IconButton onClick={(e) => handleOpenMenu(e, transaction)}>
+                        <MoreVert />
+                      </IconButton>
+                      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleCloseMenu}>
+
+                        {/* edit   */}
+                        <MenuItem
+                        // onClick={() => handleEditModalOpen(transaction)}
+                        >
+                          <ListItemIcon>
+                            <Edit fontSize="small" />
+                          </ListItemIcon>
+                          <ListItemText primary="Edit" />
+                        </MenuItem>
+
+                        {/* delete */}
+                        <MenuItem
+                        // onClick={() => handleDelete(selectedGoal)}
+                        >
+                          <ListItemIcon>
+                            <Delete fontSize="small" />
+                          </ListItemIcon>
+                          <ListItemText primary="Delete" />
+                        </MenuItem>
+                      </Menu>
+                    </TableCell>
+                  </TableRow>
+
+                ))}
             </TableBody>
             <TableFooter>
               <TableRow>

@@ -18,8 +18,18 @@ import {
     TableSortLabel,
     Chip,
     ToggleButton,
-    ToggleButtonGroup
+    ToggleButtonGroup,
+    IconButton,
+    Menu,
+    MenuItem,
+    ListItemIcon, ListItemText
+
 } from "@mui/material";
+// import DeleteIcon from '@mui/icons-material/Delete';
+import { Delete, Edit, MoreVert } from '@mui/icons-material';
+// import { Menu, MenuItem } from '@mui/material';
+
+
 import './bill.scss';
 
 const Bill = () => {
@@ -31,8 +41,21 @@ const Bill = () => {
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [orderBy, setOrderBy] = useState('dueDate');
+    const [orderBy, setOrderBy] = useState(null);
     const [order, setOrder] = useState('asc');
+
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [selectedBill, setSelectedBill] = useState(null);
+    const handleOpenMenu = (e, bill) => {
+        setSelectedBill(bill);
+        setAnchorEl(e.currentTarget);
+    };
+
+    const handleCloseMenu = () => {
+        setSelectedBill(null);
+        setAnchorEl(null);
+    };
 
     const handleOpenModal = () => {
         setModalOpen(true);
@@ -101,7 +124,9 @@ const Bill = () => {
         } else if (orderBy === 'amount') {
             return isAsc ? a.amount - b.amount : b.amount - a.amount;
         } else if (orderBy === 'dueDate') {
-            return isAsc ? new Date(a.dueDate) - new Date(b.dueDate) : new Date(b.dueDate) - new Date(a.dueDate);
+            // return isAsc ? new Date(a.dueDate) - new Date(b.dueDate) : new Date(b.dueDate) - new Date(a.dueDate);
+            return isAsc ? new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime() : new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime();
+
         }
         return 0;
     });
@@ -177,8 +202,8 @@ const Bill = () => {
                 <TableContainer className='TableContainer' component={Paper}>
                     <Table>
                         <TableHead>
-                            <TableRow>
-                                <TableCell sortDirection={orderBy === 'name' ? order : false}>
+                            <TableRow className='table-header'>
+                                <TableCell className='center-align tab-header' sortDirection={orderBy === 'name' ? order : false}>
                                     <TableSortLabel
                                         active={orderBy === 'name'}
                                         direction={orderBy === 'name' ? order : 'asc'}
@@ -187,7 +212,7 @@ const Bill = () => {
                                         Name
                                     </TableSortLabel>
                                 </TableCell>
-                                <TableCell sortDirection={orderBy === 'amount' ? order : false}>
+                                <TableCell className='center-align tab-header' sortDirection={orderBy === 'amount' ? order : false}>
                                     <TableSortLabel
                                         active={orderBy === 'amount'}
                                         direction={orderBy === 'amount' ? order : 'asc'}
@@ -196,7 +221,7 @@ const Bill = () => {
                                         Amount
                                     </TableSortLabel>
                                 </TableCell>
-                                <TableCell sortDirection={orderBy === 'dueDate' ? order : false}>
+                                <TableCell className='center-align tab-header' sortDirection={orderBy === 'dueDate' ? order : false}>
                                     <TableSortLabel
                                         active={orderBy === 'dueDate'}
                                         direction={orderBy === 'dueDate' ? order : 'asc'}
@@ -205,16 +230,18 @@ const Bill = () => {
                                         Due Date
                                     </TableSortLabel>
                                 </TableCell>
-                                <TableCell>Action</TableCell>
-
+                                <TableCell className='center-align tab-header'>
+                                    Action
+                                </TableCell>
+                                <TableCell className='center-align tab-header'> </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {sortedBills.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((bill) => (
-                                <TableRow key={bill._id}>
-                                    <TableCell>{bill.name}</TableCell>
-                                    <TableCell>{bill.amount}</TableCell>
-                                    <TableCell>{new Date(bill.dueDate).toLocaleDateString()}</TableCell>
+                                <TableRow key={bill._id} className='table-row'>
+                                    <TableCell className='center-align'>{bill.name}</TableCell>
+                                    <TableCell className='center-align'>{bill.amount}</TableCell>
+                                    <TableCell className='center-align'>{new Date(bill.dueDate).toLocaleDateString()}</TableCell>
                                     {/* <TableCell>
                                         <Button
                                             variant="contained"
@@ -224,12 +251,42 @@ const Bill = () => {
                                             {bill.isPaid ? "Unmark as Paid" : "Mark as Paid"}
                                         </Button>
                                     </TableCell> */}
-                                    <TableCell>
+                                    <TableCell className='center-align'>
                                         <Chip
                                             label={bill.isPaid ? "Paid" : "Mark as Paid"}
                                             onClick={() => handleMarkAsPaid(bill._id, !bill.isPaid)}
                                             color={bill.isPaid ? "secondary" : "primary"}
                                         />
+                                    </TableCell>
+
+
+                                    {/* <TableCell>
+                                        <Delete
+                                        // onClick={() => handleDelete(bill._id)}
+                                        />
+                                    </TableCell> */}
+                                    <TableCell>
+                                        <IconButton onClick={(e) => handleOpenMenu(e, bill)}>
+                                            <MoreVert />
+                                        </IconButton>
+                                        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleCloseMenu}>
+                                            <MenuItem
+                                            //  onClick={() => handleEdit(bill)}
+                                            >
+                                                <ListItemIcon>
+                                                    <Edit fontSize="small" />
+                                                </ListItemIcon>
+                                                <ListItemText primary="Edit" />
+                                            </MenuItem>
+                                            <MenuItem
+                                            // onClick={() => handleDelete(bill)}
+                                            >
+                                                <ListItemIcon>
+                                                    <Delete fontSize="small" />
+                                                </ListItemIcon>
+                                                <ListItemText primary="Delete" />
+                                            </MenuItem>
+                                        </Menu>
                                     </TableCell>
 
                                 </TableRow>

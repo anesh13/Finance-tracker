@@ -5,9 +5,7 @@ import axios from 'axios';
 import { backendUrl } from '../../config';
 import { Button } from '@mui/material';
 import './goal.scss';
-import { GoogleCharts } from 'google-charts';
-import { Chart } from 'react-google-charts';
-//import {} from '@types/google.visualization';
+
 import {
     Table,
     TableBody,
@@ -17,9 +15,19 @@ import {
     TableRow,
     Paper,
     // LinearProgressWithLabel,
-    // LinearProgress
+    // LinearProgress,
+    Box,
+    Typography,
+    LinearProgress,
+    IconButton,
+    Menu,
+    MenuItem,
+    ListItemIcon,
+    ListItemText,
+    TablePagination,
 } from '@mui/material';
-import { Box, Typography, LinearProgress } from '@mui/material';
+import { MoreVert, Edit, Delete } from '@mui/icons-material';
+
 import { useTranslation } from 'react-i18next';
 
 
@@ -29,7 +37,27 @@ const Goal = () => {
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedGoal, setSelectedGoal] = useState(null);
     const { t } = useTranslation();
+    //pagination/sort
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [orderBy, setOrderBy] = useState('name');
+    const [order, setOrder] = useState('asc');
 
+
+
+    //menu item for edit or remove goal
+    const [anchorEl, setAnchorEl] = useState(null);
+    const handleOpenMenu = (e, goal) => {
+        // setEditGoal(goal);
+        setAnchorEl(e.currentTarget);
+    };
+    const handleCloseMenu = () => {
+        // setEditGoal(null);
+        setAnchorEl(null);
+    };
+
+
+    //modal
     const handleOpenModal = () => {
         setModalOpen(true);
     };
@@ -41,6 +69,9 @@ const Goal = () => {
     const handleEditModalOpen = (goal) => {
         setSelectedGoal(goal);
         setEditModalOpen(true);
+
+        //close menu item
+        setAnchorEl(null);
     };
 
     const handleEditModalClose = () => {
@@ -68,12 +99,9 @@ const Goal = () => {
     useEffect(() => {
         getGoals();
     }, []);
-    
     const calculateGoalProgress = (currentAmount, targetAmount) => {
         return (currentAmount / targetAmount) * 100;
     };
-
-
 
     //  var data = new google.visualization.DataTable();
     //  data.addColumn('timeofday', 'Time of Day');
@@ -110,7 +138,25 @@ const Goal = () => {
     // };
 
 
+    //sort/ pagination
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
 
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
+    const handleSortChange = (property) => {
+        const isAsc = orderBy === property && order === 'asc';
+        setOrder(isAsc ? 'desc' : 'asc');
+        setOrderBy(property);
+    };
+
+    const sortedGoals = goals
+        .slice()
+        .sort((a, b) => (order === 'asc' ? a[orderBy].localeCompare(b[orderBy]) : b[orderBy].localeCompare(a[orderBy])));
 
 
     return (
@@ -124,66 +170,110 @@ const Goal = () => {
             </div>
 
             <div className="bottom">
-            {/* <Chart
+                {/* <Chart
           chartType='Bar'
           width='100%'
           height='400px'
           data={data}
           options={options}
         /> */}
-                 <div id="piechart" style={{ width: '90%', height: '500px' }}></div> 
-                <TableContainer component={Paper}>
-                    <Table>
-                        <TableHead>
-                            <TableRow className='table-header'>
-                                <TableCell className='center-align tab-header'>Name</TableCell>
-                                <TableCell className='center-align tab-header'>Description</TableCell>
-                                <TableCell className='center-align tab-header'>Current Amount</TableCell>
-                                <TableCell className='center-align tab-header'>Target Amount</TableCell>
-                                <TableCell className='center-align tab-header'>Target Date</TableCell>
-                                <TableCell className='center-align tab-header'>Progress</TableCell>
-                                <TableCell className='center-align tab-header'> </TableCell>
+                <div id="piechart" style={{ width: '90%', height: '500px' }}></div>
+            </div>
 
-                            </TableRow>
-                        </TableHead>
-                        <TableBody className='table-body'>
-                            {goals.map((goal) => (
-                                <TableRow key={goal._id} className='table-row'>
-                                    <TableCell className='center-align'>{t(goal.name)}</TableCell>
-                                    <TableCell className='center-align'>{t(goal.description)}</TableCell>
-                                    <TableCell className='center-align'>{goal.currentAmount}</TableCell>
-                                    <TableCell className='center-align'>{goal.targetAmount}</TableCell>
-                                    {/* <TableCell>{goal.targetDate}</TableCell> */}
-                                    <TableCell className='center-align'>
-                                        {(goal.targetDate).slice(0, 10)}
-                                    </TableCell>
+            <div className="bottom">
+                {/* <div id="piechart" style={{ width: '90%', height: '500px' }}></div> */}
+                <Paper sx={{ width: '100%' }}>
+                    <TableContainer component={Paper}>
+                        <Table>
+                            <TableHead>
+                                <TableRow className='table-header'>
+                                    <TableCell className='center-align tab-header'>Name</TableCell>
+                                    <TableCell className='center-align tab-header'>Description</TableCell>
+                                    <TableCell className='center-align tab-header'>Current Amount</TableCell>
+                                    <TableCell className='center-align tab-header'>Target Amount</TableCell>
+                                    <TableCell className='center-align tab-header'>Target Date</TableCell>
+                                    <TableCell className='center-align tab-header'>Progress</TableCell>
+                                    <TableCell className='center-align tab-header'> </TableCell>
 
-                                    <TableCell className='center-align'>
-                                        <LinearProgressWithLabel
-                                            variant="determinate"
-                                            value={calculateGoalProgress(goal.currentAmount, goal.targetAmount)}
-                                        />
-                                    </TableCell>
-                                    <TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody className='table-body'>
+                                {goals.map((goal) => (
+                                    <TableRow key={goal._id} className='table-row'>
+                                        <TableCell className='center-align'>{t(goal.name)}</TableCell>
+                                        <TableCell className='center-align'>{t(goal.description)}</TableCell>
+                                        <TableCell className='center-align'>{goal.currentAmount}</TableCell>
+                                        <TableCell className='center-align'>{goal.targetAmount}</TableCell>
+                                        {/* <TableCell>{goal.targetDate}</TableCell> */}
+                                        <TableCell className='center-align'>
+                                            {(goal.targetDate).slice(0, 10)}
+                                        </TableCell>
+
+                                        <TableCell className='center-align'>
+                                            <LinearProgressWithLabel
+                                                variant="determinate"
+                                                value={calculateGoalProgress(goal.currentAmount, goal.targetAmount)}
+                                            />
+                                        </TableCell>
+
+
+                                        <TableCell>
+                                            <IconButton onClick={(e) => handleOpenMenu(e, goal)}>
+                                                <MoreVert />
+                                            </IconButton>
+                                            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleCloseMenu}>
+
+                                                {/* edit   */}
+                                                <MenuItem onClick={() => handleEditModalOpen(goal)} >
+                                                    <ListItemIcon>
+                                                        <Edit fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText primary="Edit" />
+                                                </MenuItem>
+
+                                                {/* delete */}
+                                                <MenuItem
+                                                // onClick={() => handleDelete(selectedGoal)}
+                                                >
+                                                    <ListItemIcon>
+                                                        <Delete fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText primary="Delete" />
+                                                </MenuItem>
+                                            </Menu>
+                                        </TableCell>
+
+
+
+
+                                        {/* <TableCell>
                                         <Button variant="contained" color="primary" style={{ margin: "20px 0" }} onClick={() => handleEditModalOpen(goal)}>
                                             Edit
                                         </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                                    </TableCell> */}
+                                    </TableRow>
+                                ))}
 
 
-                            {editModalOpen && (<EditGoalModal
-                                open={editModalOpen}
-                                handleClose={handleEditModalClose}
-                                goal={selectedGoal}
-                                updateGoal={getGoals}
-                            />)}
+                                {editModalOpen && (<EditGoalModal
+                                    open={editModalOpen}
+                                    handleClose={handleEditModalClose}
+                                    goal={selectedGoal}
+                                    updateGoal={getGoals}
+                                />)}
 
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        component="div"
+                        count={goals.length}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        rowsPerPage={rowsPerPage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Paper>
             </div>
 
         </div>
