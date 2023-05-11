@@ -1,17 +1,19 @@
 .transaction {
   // background-color: lightblue;
-  // background-color: #f6f3f3;
+  background-color: #f6f3f3;
   padding: 10px 30px 10px 30px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  min-height: 100vh;
+
+  // gap: 20px;
   .top {
     display: flex;
     justify-content: space-between;
     padding: 10px 77px 10px 77px;
   }
- 
- 
+
+
   .bottom {
     // display: flex;
     // gap: 20px;
@@ -20,10 +22,11 @@
     flex-direction: column;
     align-items: center;
     gap: 30px;
- 
- 
+
+
     .table-head {
       background-color: black;
+
       .tab-header {
         color: white;
         font-size: larger;
@@ -31,19 +34,21 @@
           'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
       }
     }
+
     .table-row:hover {
       background-color: #71B340;
       transition: 0.4s;
     }
-    .pie-card {
-    }
+
+    .pie-card {}
+
     // background-color: lightblue;
 
     .center-align {
       text-align: center;
       font-size: 16px;
     }
- 
+
     .select {
       display: flex;
       align-items: start;
@@ -51,5 +56,4 @@
       background-color: gray;
     }
   }
- }
- 
+}
