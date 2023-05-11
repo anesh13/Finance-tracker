@@ -2,38 +2,46 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr); //two equal-width columns
     // gap: 20px;
-    // padding: 10px; 
-
+    // padding: 10px;
+   
+   
     .overview,
     .account-summary,
     .transactions,
     .budget,
     .goals {
-        // background-color: #f0f0f0;
-        background-color: white;
-        padding: 20px;
-        // border-radius: 10px;
-        margin: 10px;
-        min-height: 200px;
+      // background-color: #f0f0f0;
+      background-color: white;
+      padding: 20px;
+      // border-radius: 10px;
+      margin: 10px;
+      min-height: 200px;
     }
-    .tile-heading{
-        margin-bottom: 50px;
+    .tile-heading {
+      margin-bottom: 50px;
     }
-    .account-tile{
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        transition: 0.3s;
-        border-radius: 10px;
-        padding : 30px;
-        margin-bottom: 20px;
-        background-color: #D6EAF8;
-        font-size: large;
+    .account-tile {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+      border-radius: 10px;
+      padding: 30px;
+      margin-bottom: 20px;
+      background-color: #d6eaf8;
+      font-size: large;
+    }
+    .account-tile:hover {
+      background-color: #0e4971;
+      color: white;
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     }
     .budget-item,
     .goal-item {
-        margin-bottom: 10px;
-
-        progress {
-            width: 100%;
-        }
+      margin-bottom: 10px;
+   
+   
+      progress {
+        width: 100%;
+      }
     }
-}
+   }
+   
