@@ -4,7 +4,7 @@ import axios from 'axios';
 import { backendUrl } from '../../config';
 //import { NextSeo } from "next-seo";
 import { useTranslation } from 'react-i18next';
-
+import { Chart } from 'react-google-charts';
 
 const Dashboard = () => {
     const [accounts, setAccounts] = useState([]);
@@ -13,6 +13,26 @@ const Dashboard = () => {
     const [goals, setGoals] = useState([]);
     const token = localStorage.getItem('token');
     const { t } = useTranslation();
+
+    const data = [
+        ['Savings vs Debt vs Net Worth', 'Checking & Saving', 'Total Debt', 'Net Worth'],
+        [
+          ' ',
+          calculateTotalSavingsAndChecking(accounts),
+          calculateTotalDebt(accounts),
+          calculateNetWorth(
+            calculateTotalSavingsAndChecking(accounts),
+            calculateTotalDebt(accounts)
+          ),
+        ],
+      ];
+    
+      const options = {
+        chart: {
+          title: `Account Overview`,
+          //subtitle: 'Savings,Debt and Net Worth',
+        },
+      };
 
     useEffect(() => {
 
@@ -103,25 +123,34 @@ const Dashboard = () => {
       /> */}
         <div className="dashboard">
             {/* <h2>Dashboard</h2> */}
-
-            <div className="overview">
-                {/* Display the overview of the user's financial situation */}
+            <div className='overview'>
+        <Chart
+          chartType='Bar'
+          width='100%'
+          height='400px'
+          data={data}
+          options={options}
+        />
+      </div>
+    
+            {/* <div className="overview">
                 <h3>Overview</h3>
+                
                 <p>Checking & Saving: {calculateTotalSavingsAndChecking(accounts)}</p>
                 <p>Total Debt: {calculateTotalDebt(accounts)}</p>
                 <p>Net worth: {calculateNetWorth(calculateTotalSavingsAndChecking(accounts), calculateTotalDebt(accounts))}</p>
-            </div>
+            </div> */}
 
             <div className="account-summary">
                 {/* Display the list of accounts with their respective balances */}
-                <h3>Account Summary</h3>
-                <ul>
+                <h3 className='tile-heading'>Account Summary</h3>
+            
                     {accounts.map((account) => (
-                        <li key={account._id}>
-                            {t(account.name)} - {account.balance}
-                        </li>
+                        <div className = "account-tile" key={account._id}>
+                            {t(account.name)} - $ {account.balance}
+                        </div>
                     ))}
-                </ul>
+            
             </div>
 
             <div className="transactions">

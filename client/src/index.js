@@ -9,8 +9,8 @@ import i18n from 'i18next';
 
 i18n.init({
   interpolation: { escapeValue: false },
-  lng: 'es',
-  fallbackLng: 'es',
+  lng: 'en',
+  fallbackLng: 'en',
   resources: {
     en: {
       translation: require('./locales/en/translation.json'),

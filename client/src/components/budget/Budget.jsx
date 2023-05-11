@@ -4,6 +4,7 @@ import axios from 'axios';
 import { backendUrl } from '../../config';
 import { Button } from '@mui/material';
 import './budget.scss';
+import { GoogleCharts } from 'google-charts';
 import {
     Table,
     TableBody,
@@ -48,7 +49,33 @@ const Budget = () => {
     useEffect(() => {
         getBudgets();
     }, []);
+    useEffect(() => {
+        GoogleCharts.load(drawChart);
+    }, [budgets]);
 
+    const drawChart = () => {
+        const data = new GoogleCharts.api.visualization.DataTable();
+        data.addColumn('string', 'Name');
+        data.addColumn('number', 'Amount');
+
+         const formattedData = budgets.map((budget) => [String(budget.name), budget.amount]);
+        // console.log(formattedData);
+        data.addRows(formattedData);
+
+        const options = {
+            title: 'Budgets',
+            // is3D: true,
+            pieHole: 0.5,
+            pieSliceTextStyle: {
+                color: 'black',
+            },
+            // legend: 'none'
+
+        };
+
+        const chart = new GoogleCharts.api.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    };
     return (
         <div className="budget">
             <div className='top'>
@@ -61,10 +88,11 @@ const Budget = () => {
             </div>
 
             <div className="bottom">
-                <div>budget</div>
                 <div id="piechart" style={{ width: '90%', height: '500px' }}></div>
 
-            
+                </div>
+
+    <div className='bottom'>
             <div>
                 <TableContainer component={Paper}>
                     <Table>
