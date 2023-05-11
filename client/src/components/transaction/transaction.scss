@@ -1,10 +1,13 @@
 .transaction {
   // background-color: lightblue;
   background-color: #f6f3f3;
-  padding: 10px 30px 10px 30px;
+  padding: 10px 30px 60px 30px;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  // min-height: 100vh;
+  min-height: calc(100vh - 140px); //subtracted height of navbar & footer
+
+
 
   // gap: 20px;
   .top {

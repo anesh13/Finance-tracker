@@ -1,7 +1,8 @@
 .goal {
   background-color: #f6f3f3;
   padding: 10px 30px 10px 30px;
-  min-height: 100vh;
+  // min-height: 100vh;
+  min-height: calc(100vh - 140px); //subtracted height of navbar & footer
 
   .top {
     display: flex;

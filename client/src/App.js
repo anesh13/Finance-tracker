@@ -21,7 +21,7 @@ import Settings from "./components/settings/Settings";
 import Bill from "./components/bill/Bill";
 import { AuthContext } from "./contextApi/AuthContext";
 import Chatbot from "./components/chatbot/Chatbot";
-import './index.scss';
+
 const App = () => {
     // const currentUser = localStorage.getItem('username');
 
@@ -43,11 +43,8 @@ const App = () => {
                     {/* 1/3 space for leftbar and 2/3 space for outlet */}
                     <div style={{ flex: 6 }}>
                         {/* nested routes inside root route */}
-                        <div className="layout">
-                            <Outlet />
-                        </div>
+                        <Outlet />
                         <Footer />
-
                     </div>
                 </div>
                 <Chatbot />
