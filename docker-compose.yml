@@ -23,6 +23,6 @@ services:
 #    env_file:
 #      - ./client/.env #load external env file
     ports:
-      - '3002:3000'
+      - '4000:4000'
     environment:
       - NODE_ENV=production
