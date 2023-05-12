@@ -20,6 +20,16 @@ app.use(express.urlencoded({ extended: true })); // parse req.body with URL-enco
 app.use(express.json()); // parse request bodies that are in JSON format
 dotenv.config();
 
+//Accessing the path module
+const path = require("path");
+
+// Step 1:
+app.use(express.static(path.resolve(__dirname, "./client/build")));
+// Step 2:
+app.get("*", function (request, response) {
+  response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
+
 const port = 3000 || process.env.PORT;
 
 // Connection pooling to improve the performance and scalability
