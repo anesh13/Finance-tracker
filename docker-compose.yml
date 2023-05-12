@@ -5,7 +5,7 @@ services:
     build: #builds the docker image locally
       context: ./server
       dockerfile: Dockerfile #default
-    # image: aj09/financeTracker-nodejs #dockerhub
+    image: aj09/finance-node #dockerhub
 #    platform: linux/arm64
 #    env_file:
 #      - ./server/.env #load external env file
@@ -19,7 +19,7 @@ services:
     build: #builds the docker image locally
       context: ./client
       dockerfile: Dockerfile #default
-    # image: aj09/financeTracker-react #dockerhub
+    image: aj09/finance-client #dockerhub
 #    env_file:
 #      - ./client/.env #load external env file
     ports:
